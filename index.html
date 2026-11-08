@@ -1,0 +1,913 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f766e">
+<title>İSG Ara Sınav</title>
+<style>
+:root{--bg:#f7f7f5;--card:#fff;--text:#1c1c1c;--muted:#5f6368;--line:#e2e2de;--accent:#0f766e;--accent-soft:#e0f2ef;--warn:#b45309;--warn-soft:#fef3c7;--ok:#15803d;--bad:#b91c1c;--th:#f0f0ec}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#121413;--card:#1b1e1d;--text:#e8e8e6;--muted:#a3a7a5;--line:#2c302f;--accent:#2dd4bf;--accent-soft:#11302c;--warn:#fbbf24;--warn-soft:#2e2510;--ok:#4ade80;--bad:#f87171;--th:#232726}}
+:root[data-theme=dark]{--bg:#121413;--card:#1b1e1d;--text:#e8e8e6;--muted:#a3a7a5;--line:#2c302f;--accent:#2dd4bf;--accent-soft:#11302c;--warn:#fbbf24;--warn-soft:#2e2510;--ok:#4ade80;--bad:#f87171;--th:#232726}
+*{box-sizing:border-box}
+html{scroll-padding-top:120px}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px 8px}
+.top{display:flex;gap:8px;align-items:center;max-width:860px;margin:0 auto}
+.top h1{font-size:18px;margin:0;flex:1;white-space:nowrap}
+.top button{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:8px;padding:6px 10px;font-size:15px}
+#q{display:block;width:100%;max-width:860px;margin:8px auto 0;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--text);font-size:16px}
+nav{display:flex;gap:6px;overflow-x:auto;max-width:860px;margin:8px auto 0;padding-bottom:2px;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:none;font-size:13px;padding:5px 10px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--text);text-decoration:none}
+nav a.done{background:var(--accent-soft);border-color:var(--accent)}
+.prog{max-width:860px;margin:6px auto 0;height:4px;background:var(--line);border-radius:4px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+main{max-width:860px;margin:0 auto;padding:12px 16px 80px}
+section.sec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:14px 0}
+section.sec>h2{margin:0 0 4px;font-size:20px;color:var(--accent)}
+.wk{font-size:12px;color:var(--muted);margin-bottom:8px}
+h3{font-size:16px;margin:16px 0 6px}
+.hide{display:none!important}
+.tw{overflow-x:auto;margin:8px 0;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:420px}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--th)}
+.tip{background:var(--warn-soft);border-left:4px solid var(--warn);padding:8px 10px;border-radius:6px;margin:10px 0;font-size:15px}
+.me{background:var(--accent-soft);border-left:4px solid var(--accent);padding:8px 10px;border-radius:6px;margin:10px 0;font-size:15px}
+code,.f{font-family:ui-monospace,Consolas,monospace;font-size:14px;background:var(--th);padding:1px 5px;border-radius:4px}
+ul,ol{padding-left:22px;margin:6px 0}
+li{margin:3px 0}
+label.chk{display:flex;gap:8px;align-items:center;margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:var(--muted)}
+label.chk input{width:20px;height:20px;accent-color:var(--accent)}
+.fc{margin:10px 0}
+.fc-in{min-height:190px;border:2px solid var(--accent);border-radius:14px;padding:18px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:18px;cursor:pointer;background:var(--card);user-select:none}
+.fc-in.back{background:var(--accent-soft)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.btn{flex:1;min-width:90px;border:1px solid var(--accent);background:var(--card);color:var(--accent);border-radius:10px;padding:10px;font-size:15px;font-weight:600}
+.btn.p{background:var(--accent);color:var(--bg)}
+.meta{font-size:13px;color:var(--muted);text-align:center;margin-top:6px}
+.opt{display:block;width:100%;text-align:left;margin:6px 0;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--text);font-size:15px}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,var(--card))}
+.opt.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 15%,var(--card))}
+.exp{font-size:14px;color:var(--muted);margin-top:8px}
+.bonus{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn);vertical-align:middle;margin-left:4px}
+details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--card)}
+summary{cursor:pointer;font-weight:600}
+details[open] summary{margin-bottom:6px;color:var(--accent)}
+h4{font-size:15px;margin:10px 0 4px}
+#top{position:fixed;right:16px;bottom:16px;width:44px;height:44px;border-radius:50%;border:none;background:var(--accent);color:var(--bg);font-size:20px;box-shadow:0 2px 8px #0003}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <h1>⛑️ İSG Ara Sınav</h1>
+    <button id="theme" aria-label="Tema değiştir">🌓</button>
+  </div>
+  <input id="q" type="search" placeholder="Ara: gürültü, LOTO, 6331, kurul…" autocomplete="off">
+  <nav id="nav"></nav>
+  <div class="prog"><i id="bar"></i></div>
+</header>
+
+<main>
+
+<section class="sec" id="mevzuat" data-t="6331">
+<h2>1. 6331 ve Mevzuat Temeli</h2>
+<div class="wk">Hafta 1–3</div>
+<h3>Normlar hiyerarşisi</h3>
+<p>Anayasa → <b>Kanun</b> → CB Kararnamesi → <b>Yönetmelik</b> (kanunun nasıl uygulanacağı) → <b>Tebliğ</b> (teknik ayrıntı, sınıflandırma). Alt norm üste aykırı olamaz. 6331'e bağlı düzenlemeleri <b>Çalışma ve Sosyal Güvenlik Bakanlığı</b> çıkarır.</p>
+<h3>Tarihçe</h3>
+<div class="tw"><table>
+<tr><th>Yıl</th><th>Düzenleme</th></tr>
+<tr><td>1865</td><td><b>Dilaver Paşa Nizamnamesi</b> – Zonguldak maden işçileri, ilk İSG düzenlemesi</td></tr>
+<tr><td>1869</td><td>Maadin Nizamnamesi</td></tr>
+<tr><td>1930</td><td>1593 sayılı Umumi Hıfzıssıhha Kanunu</td></tr>
+<tr><td>1936</td><td>3008 sayılı İş Kanunu (ilk iş kanunu)</td></tr>
+<tr><td>2003</td><td>4857 sayılı İş Kanunu (İSG md. 77–89, sonra 6331'e taşındı)</td></tr>
+<tr><td>2006</td><td>5510 sayılı SGK Kanunu – iş kazası/meslek hastalığı sigorta tanımları</td></tr>
+<tr><td><b>2012</b></td><td><b>6331 sayılı İSG Kanunu</b> (RG 30.06.2012) – temeli AB <b>89/391/EEC</b> Çerçeve Direktifi</td></tr>
+</table></div>
+<p>Uluslararası: <b>ILO 155</b> (İSG), <b>ILO 161</b> (İSG hizmetleri).</p>
+<h3>Kapsam</h3>
+<p>Kamu + özel tüm işler ve işyerleri, çırak ve stajyerler dahil. <b>Kapsam dışı:</b> TSK, emniyet, MİT faaliyetleri; afet-acil birimleri; ev hizmetleri; çalışan çalıştırmadan kendi nam ve hesabına çalışanlar; hükümlü/tutuklular (iyileştirme kapsamındakiler).</p>
+<h3>Temel tanımlar</h3>
+<div class="tw"><table>
+<tr><th>Kavram</th><th>Tanım</th></tr>
+<tr><td><b>Tehlike</b></td><td>Zarar veya hasar verme <b>potansiyeli</b></td></tr>
+<tr><td><b>Risk</b></td><td>Tehlikeden kaynaklanacak kayıp/yaralanma/zararlı sonuç <b>olasılığı</b></td></tr>
+<tr><td>Risk değerlendirmesi</td><td>Tehlikeleri belirleme, riskleri analiz edip derecelendirme ve kontrol tedbirlerine karar verme</td></tr>
+<tr><td>Önleme</td><td>Riskleri ortadan kaldırmak/azaltmak için planlanan tedbirlerin tümü</td></tr>
+<tr><td><b>Ramak kala</b></td><td>Zarar verme potansiyeli olduğu hâlde <b>zarara uğratmayan</b> olay</td></tr>
+<tr><td>İş kazası</td><td>İşyerinde/işin yürütümü nedeniyle olan, ölüme ya da bedenen/ruhen engelliliğe yol açan olay</td></tr>
+<tr><td>Meslek hastalığı</td><td>Mesleki risklere maruziyet sonucu ortaya çıkan hastalık</td></tr>
+</table></div>
+<div class="tip">⚠️ <b>Tehlike ≠ Risk.</b> Dönen mil = tehlike; korumasız mile kolun kaptırılma olasılığı = risk.</div>
+<h3>Önemli maddeler</h3>
+<div class="tw"><table>
+<tr><th>Md.</th><th>İçerik</th></tr>
+<tr><td>4</td><td>İşverenin genel yükümlülüğü. Hizmeti dışarıdan alması / çalışanın yükümlülükleri <b>sorumluluğunu kaldırmaz</b>.</td></tr>
+<tr><td>5</td><td>Korunma ilkeleri (aşağıda)</td></tr>
+<tr><td>6</td><td>İSG hizmetleri: iş güvenliği uzmanı (İGU), işyeri hekimi, diğer sağlık personeli (DSP)</td></tr>
+<tr><td>10</td><td>Risk değerlendirmesi yapmak/yaptırmak zorunlu</td></tr>
+<tr><td>11–12</td><td>Acil durum planı, yangınla mücadele, ilk yardım, tahliye</td></tr>
+<tr><td>13</td><td><b>Çalışmaktan kaçınma hakkı</b> – ciddi ve yakın tehlikede kurula (kurul yoksa işverene) başvurulur. Talep kabul edilirse önlem alınana kadar çalışmaktan kaçınabilir; bu sürede ücret ve hakları saklıdır. <b>Ciddi, yakın ve önlenemez tehlikede</b> işyerini ya da tehlikeli bölgeyi terk edip güvenli yere gidebilir; bu nedenle hakları kısıtlanamaz.</td></tr>
+<tr><td>14</td><td>İş kazası ve meslek hastalığı SGK'ya <b>3 iş günü</b> içinde bildirilir (meslek hastalığında süre <b>öğrenildiği</b> tarihten başlar). 5510 md. 13'e göre iş kazası ayrıca <b>kolluk kuvvetlerine derhal</b> bildirilir.</td></tr>
+<tr><td>15</td><td>Sağlık gözetimi</td></tr>
+<tr><td>16–17</td><td>Bilgilendirme ve eğitim</td></tr>
+<tr><td>18</td><td>Çalışanların görüşlerinin alınması ve katılımı</td></tr>
+<tr><td>19</td><td>Çalışanların yükümlülükleri</td></tr>
+<tr><td>20</td><td>Çalışan temsilcisi</td></tr>
+<tr><td>22</td><td><b>İSG kurulu:</b> 50+ çalışan ve 6 aydan uzun süren sürekli işler</td></tr>
+<tr><td>25</td><td><b>İşin durdurulması:</b> çalışanlar için hayati tehlike oluşturan bir husus tespit edilirse, bu tehlike giderilinceye kadar işyerinin tamamında ya da bir bölümünde iş durdurulur. Tespiti <b>iş müfettişlerinden oluşan heyet</b> yapar, kararı <b>mülki amir 24 saat içinde</b> uygular. İşveren 6 iş günü içinde iş mahkemesine itiraz edebilir. İş durdurulan sürede işveren çalışanların ücretini ödemeye devam eder.</td></tr>
+<tr><td>26</td><td>İdari para cezaları (tutarlar her yıl yeniden değerleme oranıyla güncellenir; ezberlemek gerekmez)</td></tr>
+</table></div>
+<h3>Md. 5 – Korunma ilkeleri</h3>
+<ol>
+<li>Risklerden kaçınmak</li><li>Kaçınılamayan riskleri analiz etmek</li><li>Riskle <b>kaynağında</b> mücadele</li><li>İşi kişiye uygun hâle getirmek (ergonomi)</li><li>Teknik gelişmelere uyum</li><li>Tehlikeliyi tehlikesiz/az tehlikeliyle değiştirmek</li><li>Tutarlı önleme politikası</li><li><b>Toplu korumaya kişisel korumaya göre öncelik</b></li><li>Uygun talimat vermek</li>
+</ol>
+<label class="chk"><input type="checkbox"> Bu bölümü çalıştım</label>
+</section>
+
+<section class="sec" id="makine" data-t="Makine mevzuatı">
+<h2>2. Makine Mühendisi İçin Mevzuat</h2>
+<div class="wk">Mühendislik bakışı · <span class="bonus">BONUS</span> etiketli kısımlar Hafta 1–7 kapsamı dışındadır; önce ana konuları bitir</div>
+<div class="tip">📚 Terimleri ders kitaplarıyla karşılaştır: Ö. Özkılıç, <i>İSG Yönetim Sistemleri ve Risk Değerlendirme</i> · H. H. Acar ve K. Üçüncü, <i>İş Sağlığı ve Güvenliği</i>. Hoca muhtemelen kitaptaki adlandırmayı kullanacak.</div>
+<div class="me">🔧 <b>İki şapka:</b> <b>Tasarımcı/imalatçı</b> → makineyi güvenli <i>tasarlar</i> (Makine Emniyeti Yön.). <b>Kullanıcı/işveren</b> → makineyi güvenli <i>işletir</i> (6331 + İş Ekipmanları Yön.).</div>
+<div class="tw"><table>
+<tr><th>Düzenleme</th><th>Kime</th><th>Özü</th></tr>
+<tr><td><b>Makine Emniyeti Yön.</b> (2006/42/AT)</td><td>İmalatçı</td><td>Temel sağlık-güvenlik gerekleri, <b>teknik dosya</b>, <b>AT uygunluk beyanı</b>, <b>CE</b>, kullanım kılavuzu. (AB'de yeni Makine Tüzüğü 2023/1230)</td></tr>
+<tr><td><b>İş Ekipmanlarının Kullanımında SG Şartları Yön.</b> (2009/104/AT)</td><td>İşveren</td><td>Ekipman seçimi, bakım, <b>periyodik kontrol (Ek-III)</b>, koruyucular, eğitim</td></tr>
+<tr><td>Basınçlı Ekipmanlar Yön. (2014/68/AB)</td><td>İmalatçı</td><td>Kazan, basınçlı kap, boru; basınç × hacme göre kategori</td></tr>
+<tr><td>Basit Basınçlı Kaplar Yön.</td><td>İmalatçı</td><td>Hava/azot tankları (kompresör tankı)</td></tr>
+<tr><td>ATEX ürün (2014/34/AB)</td><td>İmalatçı</td><td>Patlayıcı ortam ekipmanı, Ex işareti, kategori 1/2/3</td></tr>
+<tr><td>Patlayıcı Ortamlar Yön. (1999/92/AT)</td><td>İşveren</td><td>Bölgeler: gaz <b>0-1-2</b>, toz <b>20-21-22</b>; <b>patlamadan korunma dokümanı</b></td></tr>
+<tr><td>KKD Yön. / KKD Kullanımı Yön.</td><td>İmalatçı / işveren</td><td>Kategori I basit, II orta, <b>III ölümcül</b> riskler</td></tr>
+</table></div>
+<div class="tip">⚠️ <b>Tuzak:</b> CE = imalatçının beyanı. CE'li makineyi alan işveren yine de risk değerlendirmesi, periyodik kontrol ve operatör eğitimi yapmak zorunda.</div>
+<h3>Makine güvenliği standartları <span class="bonus">BONUS</span></h3>
+<p class="wk">Ders kapsamının (Hafta 1–7) dışında; ISO 12100'ün mantığını bilmek yeterli, PL/SIL ayrıntısı mühendislik derinliği içindir.</p>
+<div class="tw"><table>
+<tr><th>Standart</th><th>Konu</th></tr>
+<tr><td><b>EN ISO 12100</b></td><td>Makine risk değerlendirmesi + <b>3 adımlı risk azaltma</b> ⭐</td></tr>
+<tr><td>EN ISO 13849-1</td><td>Kontrol sistemi güvenlik bölümleri – <b>PL a…e</b> (e en yüksek)</td></tr>
+<tr><td>EN IEC 62061</td><td>Fonksiyonel güvenlik – <b>SIL 1–3</b></td></tr>
+<tr><td>EN ISO 13850</td><td><b>Acil durdurma</b>: Kat. 0 enerji hemen kesilir; Kat. 1 kontrollü dur + enerji kes. Kırmızı mantar buton, sarı zemin, kilitlenir</td></tr>
+<tr><td>EN ISO 13857</td><td>Tehlikeli bölgeye uzanmayı önleyen güvenlik mesafeleri</td></tr>
+<tr><td>EN ISO 14119 / 14120</td><td>Kilitleme düzenleri / koruyucu tasarımı</td></tr>
+</table></div>
+<h3>ISO 12100 – 3 adımlı risk azaltma</h3>
+<ol>
+<li><b>Doğası gereği güvenli tasarım</b> – keskin kenar yok, kuvvet/hız sınırlı, sıkışma boşlukları güvenli aralıkta</li>
+<li><b>Koruma ve tamamlayıcı önlemler</b> – koruyucu (guard), güvenlik cihazları, acil durdurma</li>
+<li><b>Kullanım bilgisi</b> – etiket, kılavuz, eğitim, KKD tavsiyesi</li>
+</ol>
+<h3>Periyodik kontroller (Ek-III, kullanıcı tarafı)</h3>
+<ul>
+<li><b>Kaldırma-iletme</b> (vinç, caraskal, forklift, asansör, platform): en fazla <b>12 ayda bir</b></li>
+<li><b>Basınçlı ekipman</b> (buhar kazanı, kompresör tankı, hidrofor, LPG tankı): genelde yılda bir; hidrostatik test daha uzun aralıkla</li>
+<li>Elektrik tesisatı, topraklama, paratoner: yılda bir</li>
+<li>Kontrolü <b>yetkili kişi</b> (ör. makine mühendisi) yapar, rapor saklanır</li>
+</ul>
+<div class="tip">Ek-III'teki kalem kalem süreleri hocanın listesiyle kontrol et.</div>
+<label class="chk"><input type="checkbox"> Bu bölümü çalıştım</label>
+</section>
+
+<section class="sec" id="yonetmelik" data-t="Yönetmelikler">
+<h2>3. Yönetmelikler</h2>
+<div class="wk">Hafta 1–3</div>
+<div class="tip">Klasik sınavda yönetmeliğin <b>tam adını</b> yazmak puan kazandırır. Başlıklar tam adlarıyla verilmiştir.</div>
+<h3>İş Sağlığı ve Güvenliği Risk Değerlendirmesi Yönetmeliği</h3>
+<ul>
+<li><b>Ekip:</b> işveren/vekili, İGU, işyeri hekimi, çalışan temsilcisi, destek elemanı, tehlikeleri bilen çalışanlar (gerekirse dış uzman)</li>
+<li><b>Aşamalar:</b> işyerini tanıma → tehlikeleri tanımlama → riskleri belirleme ve analiz → kontrol: <b>planlama → karar → uygulama → izleme</b> → dokümantasyon → yenileme</li>
+<li><b>Yenileme:</b> çok tehlikeli 2, tehlikeli 4, az tehlikeli 6 yıl</li>
+<li><b>Süre dolmadan yenileme:</b> taşınma/bina değişikliği; yeni teknoloji, makine, madde; üretim yöntemi değişikliği; <b>iş kazası, meslek hastalığı, ramak kala</b>; sınır değer/mevzuat değişikliği; sağlık gözetimi sonucu; dış kaynaklı yeni tehlike</li>
+<li><b>Destek elemanı:</b> asıl görevinin yanında önleme, koruma, tahliye, yangın, ilk yardım için görevlendirilmiş eğitimli kişi</li>
+</ul>
+<h3>İş Sağlığı ve Güvenliği Hizmetleri Yönetmeliği</h3>
+<ul>
+<li>Hizmet yolları: işyeri içinden (<b>İSGB</b>), dışarıdan (<b>OSGB</b>), şartları varsa işverenin kendisi</li>
+<li>Görevlendirmeler <b>İSG-KATİP</b> üzerinden</li>
+<li><b>Tam zamanlı İGU:</b> az tehlikeli 1000+, tehlikeli 500+, çok tehlikeli 250+ çalışan · <b>Tam zamanlı hekim:</b> 2000+, 1000+, 750+ çalışan</li>
+<li>Çok tehlikeli sınıfta işveren hizmeti kendisi yürütemez</li>
+</ul>
+<h3>İş Güvenliği Uzmanlarının Görev, Yetki, Sorumluluk ve Eğitimleri Hakkında Yönetmelik</h3>
+<ul>
+<li>Belgeler <b>C → B → A</b>. C ile 3 yıl → B; B ile 4 yıl → A (sınavla; hocanın notuyla doğrula). Makine mühendisleri belge alabilir.</li>
+<li>Görevler: <b>rehberlik</b>, risk değerlendirmesi, çalışma ortamı gözetimi, eğitim-bilgilendirme-kayıt, ilgili birimlerle işbirliği</li>
+<li>Tespit ve öneriler <b>onaylı deftere</b> yazılır</li>
+<li><b>Hayati tehlike:</b> işverene <b>yazılı</b> bildirir; işveren önlem almazsa <b>Bakanlığa</b> bildirir</li>
+</ul>
+<h3>İşyeri Hekimi ve Diğer Sağlık Personelinin Görev, Yetki, Sorumluluk ve Eğitimleri Hakkında Yönetmelik</h3>
+<ul><li>Hekim: işe giriş ve periyodik muayene (sağlık gözetimi), ilk yardım organizasyonu, sağlık eğitimleri, meslek hastalığı şüphesinde yönlendirme</li><li>DSP: hemşire, sağlık memuru vb.; hekimin yönetiminde</li></ul>
+<h3>Çalışanların İş Sağlığı ve Güvenliği Eğitimlerinin Usul ve Esasları Hakkında Yönetmelik</h3>
+<ul>
+<li><b>Genel:</b> mevzuat, hak-sorumluluk, işyeri düzeni, kazanın hukuki sonuçları</li>
+<li><b>Sağlık:</b> meslek hastalıkları, ilk yardım, bulaşıcı hastalıklar, tütün</li>
+<li><b>Teknik:</b> kimyasal/fiziksel/ergonomik riskler, elle kaldırma, yangın, <b>iş ekipmanı güvenli kullanımı</b>, ekranlı araçlar, elektrik, işaretler, KKD, tahliye</li>
+<li>Ne zaman: işe başlamadan, iş/bölüm değişince, ekipman/teknoloji değişince, <b>kaza veya meslek hastalığı sonrası dönüşte</b>, <b>6 aydan uzun uzak kalınca</b></li>
+<li>Maliyet işverenin; <b>mesai içinde</b>, dışındaysa fazla çalışma</li>
+</ul>
+<h3>İş Sağlığı ve Güvenliği Kurulları Hakkında Yönetmelik</h3>
+<ul>
+<li>50+ çalışan, 6 aydan uzun sürekli işler</li>
+<li><b>Başkan</b> işveren/vekili · <b>Sekreter</b> İGU · hekim · İK/personel sorumlusu · varsa sivil savunma uzmanı · formen/ustabaşı/usta · çalışan temsilcisi (birden çoksa baş temsilci)</li>
+<li>Toplanma: az tehlikeli <b>3 ayda</b>, tehlikeli <b>2 ayda</b>, çok tehlikeli <b>ayda bir</b></li>
+<li>Kararlar oy çokluğu; eşitlikte başkanın oyu belirleyici</li>
+</ul>
+<h3>İşyerlerinde Acil Durumlar Hakkında Yönetmelik · İlkyardım Yönetmeliği</h3>
+<ul>
+<li>Acil durum planı 6/4/2 yılda yenilenir; <b>tatbikat yılda en az bir</b></li>
+<li>Destek elemanı (her ekip için ayrı: söndürme, kurtarma, koruma, ilk yardım): az tehlikeli 50, tehlikeli 30, çok tehlikeli 20 çalışana 1</li>
+<li>İlk yardımcı: az tehlikeli 20, tehlikeli 15, çok tehlikeli 10 çalışana 1; sertifika <b>3 yıl</b> geçerli</li>
+</ul>
+<h3>Sağlık ve Güvenlik İşaretleri Yönetmeliği</h3>
+<div class="tw"><table>
+<tr><th>Renk</th><th>Anlam</th><th>Şekil</th></tr>
+<tr><td>🔴 Kırmızı</td><td>Yasak, tehlike alarmı, yangınla mücadele</td><td>Yasak: yuvarlak, kırmızı çerçeve, çapraz çizgi · Yangın: kare/dikdörtgen</td></tr>
+<tr><td>🟡 Sarı/turuncu</td><td>Uyarı</td><td>Üçgen</td></tr>
+<tr><td>🔵 Mavi</td><td>Emredici (zorunluluk)</td><td>Yuvarlak</td></tr>
+<tr><td>🟢 Yeşil</td><td>Acil çıkış, ilk yardım, güvenli durum</td><td>Kare/dikdörtgen</td></tr>
+</table></div>
+<p>Makinede hareketli/dönen kısımlar <b>sarı-siyah şerit</b> ile işaretlenir.</p>
+<h3>Konuya özel yönetmelikler</h3>
+<div class="tw"><table>
+<tr><th>Yönetmelik</th><th>Öz</th></tr>
+<tr><td>KKD Kullanımı</td><td>KKD son çare; işveren ücretsiz verir; CE'li</td></tr>
+<tr><td>Gürültü / Titreşim</td><td>80-85-87 dB(A) · el-kol 2,5/5 · bütün vücut 0,5/1,15 m/s²</td></tr>
+<tr><td>Kimyasal Maddeler</td><td>Mesleki maruziyet sınır değerleri, GBF, ikame önceliği</td></tr>
+<tr><td>Kanserojen/Mutajen</td><td>İkame zorunluluğu, kapalı sistem, maruz kalanların kaydı uzun süre saklanır</td></tr>
+<tr><td>Asbest</td><td>Kullanım yasak; söküm-yıkım izinle ve sıkı tedbirle</td></tr>
+<tr><td>Biyolojik Etkenler</td><td>4 risk grubu, aşılama, maruz kalanlar listesi</td></tr>
+<tr><td>Tozla Mücadele</td><td>Silis ve kömür tozu ölçümü, pnömokonyoz önleme</td></tr>
+<tr><td>Elle Taşıma</td><td>Önce mekanik yardım; yük, çalışan, ortam değerlendirilir</td></tr>
+<tr><td>Ekranlı Araçlar</td><td><b>Her 1 saatte 10 dk</b> ara veya iş değişikliği; göz muayenesi</td></tr>
+<tr><td>Büyük Endüstriyel Kazalar (SEVESO)</td><td>Alt/üst seviye kuruluş, güvenlik raporu, büyük kaza önleme politikası</td></tr>
+<tr><td>Yapı İşleri</td><td><b>Sağlık ve Güvenlik Planı (SGP)</b>, koordinatör, yüksekte çalışma</td></tr>
+<tr><td>Gebe/Emziren Kadınlar</td><td>Gece çalışma kısıtı, emzirme odası/kreş, riskli işten uzak tutma</td></tr>
+<tr><td>Çocuk ve Genç İşçiler</td><td>Genel kural (4857 md. 71): <b>15 yaşını doldurmamış</b> çocuk çalıştırılamaz. <b>14 yaşını doldurmuş</b> ve zorunlu eğitimini bitirmiş çocuk yalnızca <b>hafif işlerde</b> çalışabilir (sanat-kültür-reklam istisnası ayrıca vardır). Ağır ve tehlikeli işlerde 18 yaş altı çalıştırma yasağı vardır.</td></tr>
+<tr><td>İşyeri Bina ve Eklentileri</td><td>Acil çıkış, zemin, havalandırma, aydınlatma, sıcaklık</td></tr>
+</table></div>
+<label class="chk"><input type="checkbox"> Bu bölümü çalıştım</label>
+</section>
+
+<section class="sec" id="teblig" data-t="Tebliğler">
+<h2>4. Tebliğler</h2>
+<div class="wk">Hafta 1–3</div>
+<h3>⭐ İş Sağlığı ve Güvenliğine İlişkin İşyeri Tehlike Sınıfları Tebliği (2012)</h3>
+<ul>
+<li>İşyerleri <b>NACE Rev.2</b> koduna göre az tehlikeli / tehlikeli / çok tehlikeli</li>
+<li>Belirleyici olan <b>asıl iş</b>; yardımcı işler sınıfı belirlemez</li>
+<li>Tüm süre ve sıklıklar bu sınıfa göre belirlenir</li>
+<li>Örnek: büro/perakende genelde az tehlikeli; gıda üretimi, tekstilin bir kısmı tehlikeli; <b>madencilik, inşaat, metal ana sanayi, döküm, gemi inşa</b> çok tehlikeli; makine imalatı çoğunlukla tehlikeli/çok tehlikeli</li>
+</ul>
+<h3>İş Sağlığı ve Güvenliği ile İlgili Çalışan Temsilcisinin Nitelikleri ve Seçilme Usul ve Esaslarına İlişkin Tebliğ</h3>
+<ul>
+<li>Temsilci <b>seçimle</b>; seçim olmazsa işveren <b>atar</b></li>
+<li>Birden fazla temsilci varsa <b>baş temsilci</b> seçilir</li>
+<li>Yetkili sendika varsa sendika temsilcisi görev yapar</li>
+<li>Görevi nedeniyle hakları kısıtlanamaz, sözleşmesi bu nedenle feshedilemez</li>
+</ul>
+<h3>İşveren veya İşveren Vekilinin İş Sağlığı ve Güvenliği Hizmetlerini Yürütmesine İlişkin Eğitimlerin Usul ve Esasları Hakkında Tebliğ</h3>
+<p>Yalnız küçük, az tehlikeli işyerlerinde, eğitim alarak. <b>Çok tehlikelide mümkün değil.</b></p>
+<div class="tip">Çalışan eşiği (10'dan az / 50'den az) değişikliklerle oynadı – hocanın notundan kontrol et.</div>
+<h3>Mesleki Eğitim Belgesi</h3>
+<p>Tehlikeli ve çok tehlikeli işlerde çalışacaklardan işle ilgili mesleki eğitim belgesi (mesleki yeterlilik veya ustalık) istenir.</p>
+<label class="chk"><input type="checkbox"> Bu bölümü çalıştım</label>
+</section>
+
+<section class="sec" id="tablo" data-t="Sayılar">
+<h2>5. “Kaç, Kaçta Bir?” Tablosu</h2>
+<div class="wk">Ezber önceliği #1</div>
+<div class="tw"><table>
+<tr><th></th><th>Az tehlikeli</th><th>Tehlikeli</th><th>Çok tehlikeli</th></tr>
+<tr><td>İGU belge sınıfı</td><td>C, B, A</td><td>B, A</td><td>Yalnız A</td></tr>
+<tr><td>İGU süresi (çalışan/ay)</td><td>10 dk</td><td>20 dk</td><td>40 dk</td></tr>
+<tr><td>Hekim süresi (çalışan/ay)</td><td>5 dk</td><td>10 dk</td><td>15 dk</td></tr>
+<tr><td>Risk değ. + acil durum planı yenileme</td><td>6 yıl</td><td>4 yıl</td><td>2 yıl</td></tr>
+<tr><td>Eğitim sıklığı / asgari süre</td><td>3 yılda bir / 8 saat</td><td>2 yılda bir / 12 saat</td><td>Yılda bir / 16 saat</td></tr>
+<tr><td>Periyodik muayene</td><td>5 yılda bir</td><td>3 yılda bir</td><td>Yılda bir</td></tr>
+<tr><td>İSG kurulu toplanma</td><td>3 ayda bir</td><td>2 ayda bir</td><td>Ayda bir</td></tr>
+<tr><td>İlk yardımcı</td><td>20 çalışana 1</td><td>15 çalışana 1</td><td>10 çalışana 1</td></tr>
+<tr><td>Acil durum destek elemanı</td><td>50 çalışana 1</td><td>30 çalışana 1</td><td>20 çalışana 1</td></tr>
+<tr><td>Tam zamanlı İGU gerekir</td><td>1000+ çalışan</td><td>500+ çalışan</td><td>250+ çalışan</td></tr>
+<tr><td>Tam zamanlı hekim gerekir</td><td>2000+ çalışan</td><td>1000+ çalışan</td><td>750+ çalışan</td></tr>
+</table></div>
+<div class="me">💡 <b>Mantığı (klasikte “neden?” sorusu için):</b> Tehlike sınıfı yükseldikçe kaza ve hastalık olasılığı ile sonuçların ağırlığı artar. Bu yüzden <b>sıklıklar artar</b> (eğitim, muayene, kurul toplantısı), <b>yenileme süreleri kısalır</b> (risk değerlendirmesi 6→4→2 yıl), <b>uzman süresi ve niteliği artar</b> (10→20→40 dk, C→B→A) ve <b>daha az çalışan başına</b> ilk yardımcı ve destek elemanı istenir.</div>
+<h3>Çalışan temsilcisi sayısı</h3>
+<div class="tw"><table>
+<tr><th>Çalışan</th><td>2–50</td><td>51–100</td><td>101–500</td><td>501–1000</td><td>1001–2000</td><td>2001+</td></tr>
+<tr><th>Temsilci</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+</table></div>
+<p>Diğer: İş kazası bildirimi <b>kolluğa derhal, SGK'ya 3 iş günü</b> · İSG kurulu <b>50+ çalışan, 6 ay+</b> · Tatbikat <b>yılda en az 1</b> · İlk yardım sertifikası <b>3 yıl</b></p>
+<label class="chk"><input type="checkbox"> Bu bölümü çalıştım</label>
+</section>
+
+<section class="sec" id="kaza" data-t="İş kazası">
+<h2>6. İş Kazaları</h2>
+<div class="wk">Hafta 4–5</div>
+<h3>5510 md. 13 – İş kazası sayılan hâller</h3>
+<ol type="a">
+<li>İşyerinde bulunduğu sırada</li>
+<li>İşveren tarafından yürütülen iş nedeniyle</li>
+<li>Görevli olarak işyeri dışına gönderildiği sırada</li>
+<li>Emziren kadın sigortalının süt izni sırasında</li>
+<li>İşverenin sağladığı taşıtla <b>topluca</b> götürülüp getirilirken</li>
+</ol>
+<div class="tip">⚠️ Servis yokken kendi aracıyla işe gelirken geçirilen kaza genelde iş kazası <b>sayılmaz</b>.</div>
+<h3>Bildirim (sınavda eksik yazılan nokta)</h3>
+<ul>
+<li><b>İş kazası:</b> işveren, o yerin <b>kolluk kuvvetlerine derhal</b>, SGK'ya en geç kazadan sonraki <b>3 iş günü</b> içinde bildirir (5510 md. 13, 6331 md. 14).</li>
+<li><b>Meslek hastalığı:</b> SGK'ya, hastalığın <b>öğrenildiği</b> tarihten itibaren 3 iş günü içinde bildirilir.</li>
+<li>Bildirim süresi geçerse idari para cezası uygulanır ve işverenin sorumluluğu artar.</li>
+</ul>
+<h3>Makine kaynaklı kaza mekanizmaları 🔧</h3>
+<div class="tw"><table>
+<tr><th>Mekanizma</th><th>Örnek</th></tr>
+<tr><td>Sıkışma / içine çekilme (nip point)</td><td>Dişli çifti, kayış-kasnak, merdane, zincir-dişli</td></tr>
+<tr><td>Dolanma</td><td>Dönen mil, matkap ucu, torna aynası (bol giysi, saç, eldiven, takı)</td></tr>
+<tr><td>Kesilme / kopma</td><td>Testere, giyotin makas, freze çakısı</td></tr>
+<tr><td>Ezilme</td><td>Pres, hidrolik kalıp, robot kolu ile sabit cisim arası</td></tr>
+<tr><td>Çarpma</td><td>Robot kolu, hareketli tabla, forklift</td></tr>
+<tr><td>Fırlama</td><td>Talaş, kırılan taşlama taşı, aynadan kurtulan parça</td></tr>
+<tr><td>Sıvı enjeksiyonu</td><td>Yüksek basınçlı hidrolik kaçak – dıştan küçük, içten ağır hasar</td></tr>
+<tr><td>Enerji</td><td>Elektrik, sıcak yüzey, basınç patlaması, depolanmış enerji (yay, akümülatör, yerçekimi)</td></tr>
+</table></div>
+<p><b>Güvensiz koşul:</b> sökülmüş/devre dışı koruyucu, köprülenmiş kilitleme şalteri, bakımsız fren.<br><b>Güvensiz hareket:</b> makine çalışırken talaş temizlemek, LOTO'suz bakım, torna başında eldiven.</p>
+<h3>Kaza teorileri</h3>
+<div class="tw"><table>
+<tr><th>Teori</th><th>Özü</th></tr>
+<tr><td><b>Heinrich domino (1931)</b></td><td>① Kalıtım/sosyal çevre → ② Kişisel kusur → ③ <b>Güvensiz hareket/koşul</b> → ④ Kaza → ⑤ Yaralanma. <b>3. domino çekilirse zincir kırılır.</b></td></tr>
+<tr><td>Heinrich oranı</td><td>%88 güvensiz hareket · %10 güvensiz koşul · %2 kaçınılmaz</td></tr>
+<tr><td><b>Heinrich üçgeni</b></td><td><b>1</b> ağır : <b>29</b> hafif : <b>300</b> yaralanmasız</td></tr>
+<tr><td><b>Bird üçgeni (1969)</b></td><td><b>1</b> ağır : <b>10</b> hafif : <b>30</b> maddi hasar : <b>600</b> ramak kala</td></tr>
+<tr><td>Bird & Loftus</td><td>İlk domino = <b>yönetim kontrol eksikliği</b></td></tr>
+<tr><td>Reason – İsviçre peyniri</td><td>Savunma katmanlarındaki delikler hizalanınca kaza. Makinede katmanlar: tasarım, koruyucu, kilitleme, prosedür, eğitim</td></tr>
+<tr><td>Buzdağı</td><td>Dolaylı maliyetler (üretim kaybı, hasar, soruşturma, itibar) doğrudan maliyetlerden çok büyük</td></tr>
+</table></div>
+<h3>Kaza analiz araçları</h3>
+<ul>
+<li><b>5 Neden:</b> kök nedene inene kadar “neden?”</li>
+<li><b>Balık kılçığı (Ishikawa) 6M:</b> İnsan, Makine, Metot, Malzeme, Ölçüm, Ortam</li>
+<li><b>FTA (hata ağacı):</b> tepe olaydan aşağı, tümdengelim. <span class="f">VE: P = P₁·P₂</span> <span class="f">VEYA: P = 1−(1−P₁)(1−P₂)</span></li>
+<li><b>ETA (olay ağacı):</b> başlatıcı olaydan ileri, tümevarım</li>
+</ul>
+<div class="me">Örnek FTA: “koruyucu açık” (0,1) <b>VE</b> “operatör elini sokar” (0,05) → P = <b>0,005</b></div>
+<h3>Kaza istatistikleri</h3>
+<p><span class="f">Sıklık hızı = Kaza sayısı × 1.000.000 / Toplam çalışma saati</span></p>
+<p><span class="f">Ağırlık hızı = Kayıp iş günü × 1.000 / Toplam çalışma saati</span></p>
+<div class="me">250 çalışan × 2000 saat = 500.000 saat; 5 kaza, 60 kayıp gün → Sıklık = <b>10</b>, Ağırlık = <b>0,12</b>. (ABD/OSHA 200.000 çarpanı kullanır.)</div>
+<label class="chk"><input type="checkbox"> Bu bölümü çalıştım</label>
+</section>
+
+<section class="sec" id="meslek" data-t="Meslek hast.">
+<h2>7. Meslek Hastalıkları</h2>
+<div class="wk">Hafta 4–5</div>
+<div class="tw"><table>
+<tr><th>SGK grubu</th><th>İçerik</th></tr>
+<tr><td>A</td><td>Kimyasal maddelerle olan</td></tr>
+<tr><td>B</td><td>Mesleki cilt hastalıkları</td></tr>
+<tr><td>C</td><td><b>Pnömokonyozlar</b> ve diğer mesleki solunum yolu hastalıkları</td></tr>
+<tr><td>D</td><td>Mesleki bulaşıcı hastalıklar</td></tr>
+<tr><td>E</td><td>Fiziksel etkenlerle olan</td></tr>
+</table></div>
+<ul>
+<li><b>Pnömokonyozlar:</b> silikoz (silis – maden, kumlama, döküm), asbestoz, antrakoz (kömür), bissinoz (pamuk)</li>
+<li>Diğer: kurşun zehirlenmesi (saturnizm), gürültüye bağlı işitme kaybı, mesleki astım, kontakt dermatit, beyaz parmak (Raynaud)</li>
+<li><b>Tespit:</b> maruziyet + klinik bulgu + <b>yükümlülük süresi</b> (maruziyet bittikten sonra hastalığın çıkabileceği en uzun süre). Kararı <b>SGK Sağlık Kurulu</b> verir.</li>
+<li><b>Fark:</b> iş kazası <b>ani</b>; meslek hastalığı <b>tekrarlayan/uzun süreli</b> maruziyet</li>
+</ul>
+<div class="me">🔧 Makine/metal sektöründe: gürültü kaybı (pres, taşlama, kompresör) · el-kol titreşim sendromu · <b>kaynakçı akciğeri (siderozis)</b> ve metal dumanı ateşi (galvanizli sac, çinko) · silikoz (dökümhane) · kesme yağı dermatiti · kas-iskelet (elle taşıma)</div>
+<label class="chk"><input type="checkbox"> Bu bölümü çalıştım</label>
+</section>
+
+<section class="sec" id="fiziksel" data-t="Fiziksel">
+<h2>8. Fiziksel Risk Etmenleri</h2>
+<div class="wk">Hafta 6</div>
+<h3>Gürültü ⭐</h3>
+<div class="tw"><table>
+<tr><th></th><th>Günlük maruziyet</th><th>Tepe</th><th>Ne yapılır</th></tr>
+<tr><td>En düşük eylem değeri</td><td><b>80 dB(A)</b></td><td>135 dB(C)</td><td>KKD hazır, eğitim</td></tr>
+<tr><td>En yüksek eylem değeri</td><td><b>85 dB(A)</b></td><td>137 dB(C)</td><td>KKD <b>zorunlu</b>, alan işaretlenir</td></tr>
+<tr><td>Maruziyet sınır değeri</td><td><b>87 dB(A)</b></td><td>140 dB(C)</td><td>Aşılamaz (KKD hesaba katılarak)</td></tr>
+</table></div>
+<p><span class="f">L_top = 10·log Σ 10^(Lᵢ/10)</span> → iki eşit kaynak <b>+3 dB</b> (90+90 = 93; 85+95 ≈ 95,4). Fark &gt;10 dB ise küçüğü ihmal.</p>
+<p><span class="f">L_EX,8h = L_Aeq + 10·log(T/8)</span> → 95 dB'de 2 saat: 95 − 6 = <b>89 dB(A)</b> (sınırı aşar).</p>
+<p>Eşit enerji: <b>+3 dB → süre yarıya</b> (85 dB 8 sa, 88 dB 4 sa).</p>
+<p>Etkiler: geçici (TTS) ve kalıcı işitme kaybı (<b>4000 Hz çentiği</b>), tinnitus, stres, iletişim bozulması.</p>
+<div class="me">🔧 Kontrol: <b>Kaynakta</b> (sessiz makine, balans-hizalama, bakım, susturucu, izolatör, düşük devir) → <b>Yolda</b> (kabin, bariyer, yutucu kaplama, mesafe) → <b>Alıcıda</b> (kulaklık, rotasyon, sessiz kontrol odası)</div>
+<h3>Titreşim</h3>
+<div class="tw"><table>
+<tr><th></th><th>Eylem</th><th>Sınır</th><th>Etki</th></tr>
+<tr><td>El-kol</td><td>2,5 m/s²</td><td>5 m/s²</td><td>Beyaz parmak, eklem hasarı</td></tr>
+<tr><td>Bütün vücut</td><td>0,5 m/s²</td><td>1,15 m/s²</td><td>Bel-omurga (forklift, iş makinesi)</td></tr>
+</table></div>
+<div class="me"><span class="bonus">BONUS</span> 🔧 İzolasyon için <b>f / fₙ &gt; √2</b>. Oran ≈ 1 → <b>rezonans</b>. Önlem: dengeleme, anti-vibrasyon tutamak, sönümlü koltuk, süre kısaltma.</div>
+<h3>Termal ortam ve havalandırma</h3>
+<ul>
+<li>Konfor: sıcaklık, bağıl nem, hava hızı, radyant sıcaklık. Sıcak stresi <b>WBGT</b> ile (dökümhane, fırın, dövme)</li>
+<li>Sıcakta ısı çarpması/bitkinlik; soğukta hipotermi/donma</li>
+<li><b>Genel havalandırma:</b> seyreltir (düşük toksisite)</li>
+<li><b>Lokal egzoz (LEV):</b> kaynağında yakalar – davlumbaz, kanal, filtre, fan, baca. Kaynak dumanı ve taşlama tozu için doğru seçim; yakalama hızı/debi ölçülür</li>
+</ul>
+<h3>Aydınlatma, radyasyon, basınç</h3>
+<ul>
+<li>Aydınlatma birimi <b>lüks</b>. <b>Stroboskopik etki:</b> floresan altında dönen mil duruyor gibi görünür</li>
+<li><b>İyonlaştırıcı</b> (X, γ, α, β, nötron; endüstriyel radyografi): çalışan sınırı <b>20 mSv/yıl</b>. Korunma: <b>zaman, mesafe, zırhlama</b></li>
+<li><b>İyonlaştırmayan:</b> kaynak arkı UV → kaynakçı gözü (fotokeratit); lazer sınıf 1–4; indüksiyon EMF</li>
+<li><b>Basınç:</b> emniyet ventili ayarı korunur, hidrostatik test, <b>basınçlı havayla vücut/elbise temizlenmez</b>, hortumlara emniyet (whip-check). Dalgıç/kesonda vurgun</li>
+</ul>
+<h3>Elektrik ve yangın</h3>
+<ul>
+<li>Kaçak akım rölesi: <b>30 mA</b> hayat koruma, <b>300 mA</b> yangın koruma. Gövde topraklaması; nemli ortamda düşük gerilim</li>
+<li>Yangın üçgeni: yakıt + oksijen + ısı (+ zincirleme reaksiyon = dörtgen)</li>
+<li>Sınıflar: <b>A</b> katı · <b>B</b> sıvı · <b>C</b> gaz · <b>D</b> metal (Mg, Al talaşı) · <b>F</b> yemeklik yağ</li>
+</ul>
+<div class="tip">⚠️ Metal talaşı yangınına <b>su sıkılmaz</b> → D sınıfı söndürücü.</div>
+<h3>Ergonomi – elle taşıma</h3>
+<p><b>NIOSH kaldırma denklemi:</b> yük sabiti <b>LC = 23 kg</b>; yatay/dikey mesafe, döndürme, sıklık, kavrama çarpanlarıyla azaltılır. Çözüm: caraskal, vakumlu kaldırıcı, ayarlı tezgâh, konveyör.</p>
+<label class="chk"><input type="checkbox"> Bu bölümü çalıştım</label>
+</section>
+
+<section class="sec" id="kimyasal" data-t="Kimyasal-Bio">
+<h2>9. Kimyasal ve Biyolojik Etmenler</h2>
+<div class="wk">Hafta 7</div>
+<h3>Kimyasallar</h3>
+<ul>
+<li><b>Giriş yolları:</b> solunum (en önemli), deri, sindirim, göz/enjeksiyon</li>
+<li><b>Fiziksel hâl:</b> toz, <b>fume</b> (kaynakta buharlaşıp yoğuşan metal), duman, sis (kesme yağı mist), buhar, gaz, lif</li>
+<li><b>TWA (ZAOD):</b> 8 saatlik ortalama · <b>STEL:</b> 15 dk · <b>Tavan:</b> hiç aşılamaz</li>
+<li><b>GBF/SDS:</b> <b>16 bölüm</b>, tedarikçi verir, Türkçe</li>
+<li><b>CLP/SEA:</b> <b>9 piktogram</b> (patlayıcı, alevlenir, oksitleyici, basınçlı gaz, aşındırıcı, akut toksik, sağlık tehlikesi, ciddi sağlık tehlikesi, çevre); uyarı kelimesi <b>“Tehlike”</b> / <b>“Dikkat”</b></li>
+<li>Toksik etki: tahriş edici, boğucu (basit / kimyasal – CO), narkotik, sistemik, <b>KMR</b> (kanserojen, mutajen, üreme toksik)</li>
+</ul>
+<p><span class="f">TWA = Σ(Cᵢ·tᵢ) / 8</span> → 4 sa 10 + 4 sa 2 mg/m³ = (40+8)/8 = <b>6 mg/m³</b></p>
+<p><span class="f">Karışım: Σ Cᵢ / SDᵢ ≤ 1</span> → 3/5 + 20/50 = 0,6 + 0,4 = <b>1,0</b> (sınırda)</p>
+<div class="me">🔧 Makine sektörü:
+<ul>
+<li><b>Kaynak dumanı:</b> Mn, <b>Cr⁶⁺</b> (paslanmaz kaynağı, kanserojen), Ni, Zn; ayrıca O₃, NOx</li>
+<li><b>Kesme sıvıları:</b> dermatit, mist solunması, bakteri üremesi</li>
+<li><b>Solventler</b> (aseton, tiner): narkotik etki, yangın/ATEX</li>
+<li><b>Boya kabini:</b> izosiyanat (mesleki astım)</li>
+<li><b>Döküm:</b> silis, CO, reçine bağlayıcılar</li>
+<li><b>Oksi-asetilen:</b> alev tutucu + geri tepme ventili, tüpler <b>dik ve zincirli</b>, oksijen tüpüne <b>yağ değmez</b>, oksijen ve yanıcı gaz ayrı depolanır</li>
+</ul></div>
+<p><b>Kontrol:</b> ikame (solvent → su bazlı) → kapalı sistem → LEV → idari → KKD (maske: P2/P3 partikül, A tipi organik buhar).</p>
+<h3>Maruziyetin ölçülmesi (iş hijyeni)</h3>
+<ul>
+<li><b>Kişisel örnekleme:</b> örnekleyici çalışanın <b>solunum bölgesine</b> takılır, gerçek maruziyeti verir. Sınır değerle karşılaştırmada esas olan budur.</li>
+<li><b>Ortam ölçümü:</b> sabit noktadan alınır, kaynağı ve kontrol önlemlerinin etkisini gösterir.</li>
+<li>Ölçümleri <b>akredite ve yetkili iş hijyeni laboratuvarları</b> yapar. Sonuç, sınır değerle karşılaştırılıp risk değerlendirmesine işlenir.</li>
+<li>Önlemden <b>önce ve sonra</b> ölçüm yapmak, önlemin etkinliğini kanıtlar.</li>
+</ul>
+<h3>Biyolojik etkenler</h3>
+<div class="tw"><table>
+<tr><th>Grup</th><th>Hastalık</th><th>Yayılma</th><th>Tedavi</th><th>Örnek</th></tr>
+<tr><td>1</td><td>Olası değil</td><td>–</td><td>Gerekmez</td><td>Laboratuvar E. coli K12</td></tr>
+<tr><td>2</td><td>Yapabilir</td><td>Olası değil</td><td>Var</td><td>Tetanoz, salmonella</td></tr>
+<tr><td>3</td><td>Ağır</td><td>Olası</td><td>Genelde var</td><td>Tüberküloz, HBV, HIV</td></tr>
+<tr><td>4</td><td>Ağır</td><td>Yüksek</td><td><b>Yok</b></td><td>Ebola</td></tr>
+</table></div>
+<p>Türler: bakteri, virüs, mantar, parazit, hücre kültürü. Riskli sektör: sağlık, laboratuvar, tarım-hayvancılık, atık, gıda.</p>
+<h3>Bulaş yolları</h3>
+<ul>
+<li><b>Solunum:</b> damlacık ve aerosol (tüberküloz, Legionella)</li>
+<li><b>Kan ve vücut sıvıları:</b> kesici-delici alet yaralanması (HBV, HCV, HIV)</li>
+<li><b>Temas:</b> deri ve mukoza, açık yara (tetanoz, mantar)</li>
+<li><b>Sindirim:</b> kontamine el, gıda veya su (salmonella, hepatit A)</li>
+<li><b>Vektör:</b> böcek ve kemirgen ısırığı (leptospiroz, şarbon gibi zoonozlar)</li>
+</ul>
+<p>Değerlendirmede etkenin <b>risk grubu</b>, bulaş yolu, maruziyet süresi ve sıklığı, aşılanma durumu dikkate alınır. Maruz kalan çalışanların listesi tutulur.</p>
+<div class="me">🔧 Kesme sıvısı tankında bakteri/mantar · soğutma kulesi ve HVAC'ta <b>Legionella</b> · metal kesiklerde <b>tetanoz</b>. Korunma: aşı, hijyen, sistem temizliği/biyosit, KKD.</div>
+<label class="chk"><input type="checkbox"> Bu bölümü çalıştım</label>
+</section>
+
+<section class="sec" id="kontrol" data-t="Kontrol-Risk">
+<h2>10. Kontrol Hiyerarşisi ve Risk Yöntemleri</h2>
+<div class="wk">Tüm konuları bağlar</div>
+<h3>Kontrol hiyerarşisi – torna örneği</h3>
+<div class="tw"><table>
+<tr><th>Seviye</th><th>Torna tezgâhı</th></tr>
+<tr><td>1. Eliminasyon</td><td>İşlemi kapalı CNC'ye taşı, operatörü bölgeden çıkar</td></tr>
+<tr><td>2. İkame</td><td>Daha güvenli yöntem/makine</td></tr>
+<tr><td>3. Mühendislik</td><td>Kilitlemeli ayna koruyucu, talaş siperi, acil durdurma</td></tr>
+<tr><td>4. İdari</td><td>LOTO, eğitim, talimat, eldiven yasağı uyarısı</td></tr>
+<tr><td>5. KKD (son çare)</td><td>Gözlük, iş ayakkabısı. <b>Torna başında eldiven giyilmez!</b></td></tr>
+</table></div>
+<h3>Koruyucu ve güvenlik cihazları ⭐</h3>
+<ul>
+<li><b>Sabit koruyucu:</b> ancak aletle sökülür (kayış-kasnak, dişli muhafazası)</li>
+<li><b>Hareketli kilitlemeli:</b> açılınca makine durur, kapanmadan çalışmaz</li>
+<li><b>Ayarlanabilir:</b> daire/şerit testere</li>
+<li><b>Cihazlar:</b> ışık perdesi (pres), <b>iki el kumandası</b>, basınca duyarlı paspas, onay (enable) butonu, halat çekmeli acil durdurma (konveyör)</li>
+</ul>
+<h3>LOTO – kilitle/etiketle</h3>
+<ol><li>Hazırlık</li><li>Makineyi durdur</li><li>Enerji kaynağını izole et</li><li>Kilitle + etiketle (herkesin kendi kilidi)</li><li><b>Depolanmış enerjiyi boşalt</b> (hidrolik, pnömatik, yay, yerçekimi)</li><li><b>Doğrula</b> (çalıştırmayı dene)</li></ol>
+<h3>Taşlama ve kaldırma</h3>
+<ul>
+<li>Taşlama: taşın <b>maks. devri aşılmaz</b>, mesnet-taş boşluğu <b>≤ 3 mm</b>, taş koruyucu, takmadan önce çınlama testi</li>
+<li>Kaldırma: <b>ÇYS/SWL</b> aşılmaz, <b>sapan açısı büyüdükçe kol yükü artar</b> (60° önerilen üst sınır), asılı yük altında durulmaz, halat/kanca/zincir kontrolü</li>
+</ul>
+<h3>Risk değerlendirme yöntemleri</h3>
+<p><b>5×5 L-matris:</b> <span class="f">R = Olasılık × Şiddet</span> (1–25)</p>
+<div class="tw"><table><tr><th>Puan</th><td>1</td><td>2–6</td><td>8–12</td><td>15–16</td><td>20–25</td></tr><tr><th>Seviye</th><td>Önemsiz</td><td>Katlanılabilir</td><td>Orta</td><td>Önemli</td><td>Tolerans gösterilemez</td></tr></table></div>
+<p><b>Fine-Kinney:</b> <span class="f">R = O × F × Ş</span></p>
+<div class="tw"><table><tr><th>R</th><td>&gt;400</td><td>200–400</td><td>70–200</td><td>20–70</td><td>&lt;20</td></tr><tr><th>Seviye</th><td>Tolerans gösterilemez (dur)</td><td>Esaslı</td><td>Önemli</td><td>Olası</td><td>Kabul edilebilir</td></tr></table></div>
+<div class="me">Örnek: 3 × 6 × 15 = <b>270 → esaslı risk</b></div>
+<ul>
+<li><span class="bonus">BONUS</span> <b>FMEA:</b> <span class="f">RPN = Şiddet × Olasılık × Saptanabilirlik</span>, her biri 1–10, maks. 1000; yüksek RPN önce</li>
+<li><span class="bonus">BONUS</span> <b>HAZOP:</b> proses tesisi; kılavuz kelimelerle sapma (fazla, az, yok, ters)</li>
+<li><b>FTA / ETA:</b> bkz. İş Kazaları bölümü</li>
+</ul>
+<label class="chk"><input type="checkbox"> Bu bölümü çalıştım</label>
+</section>
+
+<section class="sec" id="planlama" data-t="Yerleşim planı">
+<h2>11. Tehlikeleri Esas Alan İşyeri Planlaması</h2>
+<div class="wk">Ders içeriğinde açıkça yazıyor · makine mühendisi için klasik soru adayı</div>
+<div class="me">🔧 <b>Neden önemli?</b> Tehlikeyi <b>tasarım ve yerleşim aşamasında</b> ortadan kaldırmak, kontrol hiyerarşisinin en üst basamağıdır (eliminasyon) ve en ucuz çözümdür. Kurulduktan sonra yapılan düzeltme pahalıdır ve çoğu zaman idari önlem ya da KKD'ye kalır. Bu, 6331 md. 5'teki “riskle kaynağında mücadele” ilkesinin ve ISO 12100'ün 1. adımının <b>tesis ölçeğindeki</b> karşılığıdır.</div>
+<h3>Yerleşim ilkeleri</h3>
+<ol>
+<li><b>Tehlikeli birimlerin ayrılması:</b> kazan dairesi, kompresör odası, boya kabini, yanıcı ve kimyasal depo, gaz tüpü deposu ve trafo ayrı bölmeye ya da binaya alınır. Yangın duvarı kullanılır, hâkim rüzgâr yönü dikkate alınır.</li>
+<li><b>Malzeme akışı:</b> akış düz ya da U şeklinde planlanır, geri dönüş ve kesişme olmaz. Taşıma mesafesi kısalınca elle taşıma ve forklift trafiği azalır.</li>
+<li><b>Trafik ayrımı:</b> yaya yolu ile forklift yolu fiziksel olarak ayrılır (bariyer, sarı zemin çizgisi). Kör köşelere ayna konur, trafik tek yönlü yapılır.</li>
+<li><b>Makine yerleşimi:</b> makineler arasında ve makine ile duvar arasında bakım ve kaçış için güvenli boşluk bırakılır. Hareketli parçalar ve fırlama yönleri yaya yoluna bakmaz. Operatör alanı tanımlanır.</li>
+<li><b>Acil durum:</b> kaçış yolları, mümkünse iki yönlü çıkış, acil çıkış işaretleri ve aydınlatması, toplanma alanı planlanır. Yangın dolabı ve söndürücülere erişim engellenmez.</li>
+<li><b>Gürültü ve kirletici zonlaması:</b> gürültülü makineler bir bölgede toplanıp yalıtılır. Kaynak ve taşlama bölümü perdeyle ayrılır. LEV kanalları ve havalandırma baştan planlanır.</li>
+<li><b>Patlayıcı ortam bölgeleri:</b> ATEX bölge planı hazırlanır, bu bölgelerde ateşleme kaynakları kontrol edilir.</li>
+<li><b>Altyapı ve ergonomi:</b> elektrik panosunun önü boş bırakılır. Yeterli aydınlatma ve doğal havalandırma sağlanır. Çalışma yüksekliği ergonomik olur.</li>
+</ol>
+<h3>İlgili mevzuat</h3>
+<ul>
+<li>İşyeri Bina ve Eklentilerinde Alınacak Sağlık ve Güvenlik Önlemlerine İlişkin Yönetmelik</li>
+<li>İşyerlerinde Acil Durumlar Hakkında Yönetmelik</li>
+<li>Binaların Yangından Korunması Hakkında Yönetmelik</li>
+<li>Çalışanların Patlayıcı Ortamların Tehlikelerinden Korunması Hakkında Yönetmelik</li>
+</ul>
+<details><summary>Klasik soru: Yeni kurulacak bir makine imalat atölyesinin yerleşim planında İSG açısından nelere dikkat edersiniz?</summary>
+<p><b>Cevap iskeleti:</b> (1) Planlama aşamasının önemi: eliminasyon, ucuzluk, md. 5. (2) Önce tehlike envanteri çıkarılır: hangi makineler ve hangi enerji türleri var, hangi kimyasallar kullanılıyor. (3) Yukarıdaki 8 ilkeden en az 5–6 tanesi, her biri bir somut örnekle yazılır (örneğin “kompresör odası ayrı ve ses yalıtımlı olur”). (4) İlgili yönetmelik adları verilir. (5) Plan, işletmeye geçmeden önce risk değerlendirmesiyle doğrulanır.</p>
+</details>
+<label class="chk"><input type="checkbox"> Bu bölümü çalıştım</label>
+</section>
+
+<section class="sec" id="etkinlik" data-t="Yönetim-Etkinlik">
+<h2>12. Yönetim Sistemi ve Önlemlerin Etkinliği</h2>
+<div class="wk">Ders içeriği: “mühendislik ve yönetimsel metotlar” ve “tedbirlerin etkinliğinin değerlendirilmesi” · ders kitabı: İSG Yönetim Sistemleri</div>
+<h3>PUKÖ (Deming) döngüsü</h3>
+<div class="tw"><table>
+<tr><th>Adım</th><th>İSG'deki karşılığı</th></tr>
+<tr><td><b>P</b>lanla</td><td>İSG politikası, tehlikelerin belirlenmesi, risk değerlendirmesi, hedefler, yasal şartlar</td></tr>
+<tr><td><b>U</b>ygula</td><td>Önlemler, eğitim, iletişim, dokümantasyon, acil durum hazırlığı</td></tr>
+<tr><td><b>K</b>ontrol et</td><td>Ölçüm, izleme, iç denetim, kaza ve ramak kala araştırması</td></tr>
+<tr><td><b>Ö</b>nlem al</td><td>Düzeltici faaliyet, yönetimin gözden geçirmesi, sürekli iyileştirme</td></tr>
+</table></div>
+<ul>
+<li><b>ISO 45001:2018</b> uluslararası İSG yönetim sistemi standardıdır ve <b>OHSAS 18001</b>'in yerini almıştır. PUKÖ yapısındadır. <b>Liderlik</b> ve <b>çalışan katılımını</b> özellikle vurgular.</li>
+<li>Standart <b>gönüllüdür</b>. 6331'e uyum ise <b>zorunludur</b>. Belge sahibi olmak yasal yükümlülükleri ortadan kaldırmaz.</li>
+</ul>
+<h3>Önlemin etkinliği nasıl değerlendirilir?</h3>
+<ol>
+<li><b>Kalıntı riskin yeniden puanlanması:</b> önlemden sonra risk skoru yeniden hesaplanır (örneğin Fine-Kinney 720'den 120'ye iner).</li>
+<li><b>Ölçüm:</b> önlemden önceki ve sonraki gürültü, toz veya kimyasal konsantrasyon değerleri karşılaştırılır.</li>
+<li><b>Gözlem ve denetim:</b> önlem gerçekten uygulanıyor mu? Örneğin koruyucu hâlâ yerinde mi, KKD kullanılıyor mu?</li>
+<li><b>Göstergeler:</b> aşağıdaki tabloya bak.</li>
+<li><b>Çalışan geri bildirimi:</b> önlem işi zorlaştırıyorsa devre dışı bırakılır. Pres vakasındaki ışık perdesi buna örnektir.</li>
+</ol>
+<div class="tw"><table>
+<tr><th>Öncü (proaktif) göstergeler</th><th>Artçı (reaktif) göstergeler</th></tr>
+<tr><td>Ramak kala bildirim sayısı, tamamlanan denetimler, eğitim tamamlama oranı, kapatılan düzeltici faaliyetler, periyodik kontrollerin zamanında yapılma oranı</td><td>Kaza sıklık hızı, kaza ağırlık hızı, kayıp iş günü, meslek hastalığı sayısı, maliyetler</td></tr>
+<tr><td>Kaza <b>olmadan önce</b> uyarır</td><td>Zarar <b>olduktan sonra</b> ölçer</td></tr>
+</table></div>
+<h3>Etkin bir önlemin özellikleri</h3>
+<ul>
+<li>Kontrol hiyerarşisinde üst basamaktadır.</li>
+<li>Kişinin davranışına bağımlı değildir, kalıcıdır, devre dışı bırakılması zordur.</li>
+<li>Yeni bir risk yaratmaz. Örneğin kulaklık uyarı seslerini duymayı engellememelidir.</li>
+<li>Üretimi gereksiz yere engellemez, aksi hâlde çalışanlar etrafından dolaşır.</li>
+</ul>
+<h3>Kaza araştırması adımları</h3>
+<ol><li>Alanı güvene al, ilk yardım ver</li><li>Kanıtı koru (fotoğraf, ekipman, kayıtlar)</li><li>Tanık ve kazazede ifadelerini al</li><li>Olay sırasını çıkar, <b>kök nedeni</b> bul (5 Neden, balık kılçığı, FTA)</li><li>Düzeltici ve önleyici faaliyeti belirle</li><li>Uygulamayı takip et ve etkinliğini doğrula</li></ol>
+<p><b>Düzeltici faaliyet:</b> olmuş bir uygunsuzluğun nedenini giderip tekrarını önler. <b>Önleyici faaliyet:</b> henüz olmamış olası bir uygunsuzluğu önler.</p>
+<label class="chk"><input type="checkbox"> Bu bölümü çalıştım</label>
+</section>
+
+<section class="sec" id="formul" data-t="Formüller">
+<h2>13. Formül Kartı</h2>
+<div class="wk">Hesap soruları için</div>
+<div class="tw"><table>
+<tr><th>Konu</th><th>Formül</th></tr>
+<tr><td>dB toplama</td><td><span class="f">L = 10·log Σ 10^(Lᵢ/10)</span></td></tr>
+<tr><td>Günlük gürültü</td><td><span class="f">L_EX,8h = L + 10·log(T/8)</span></td></tr>
+<tr><td>Kimyasal TWA</td><td><span class="f">Σ(Cᵢ·tᵢ)/8</span></td></tr>
+<tr><td>Karışım</td><td><span class="f">Σ Cᵢ/SDᵢ ≤ 1</span></td></tr>
+<tr><td>Kaza sıklık hızı</td><td><span class="f">Kaza × 10⁶ / saat</span></td></tr>
+<tr><td>Kaza ağırlık hızı</td><td><span class="f">Kayıp gün × 10³ / saat</span></td></tr>
+<tr><td>FTA VE / VEYA</td><td><span class="f">P₁·P₂</span> / <span class="f">1−(1−P₁)(1−P₂)</span></td></tr>
+<tr><td>L-matris / Fine-Kinney / FMEA</td><td><span class="f">O×Ş</span> / <span class="f">O×F×Ş</span> / <span class="f">S×O×D</span></td></tr>
+<tr><td>Titreşim izolasyonu <span class="bonus">BONUS</span></td><td><span class="f">f/fₙ &gt; √2</span></td></tr>
+</table></div>
+<label class="chk"><input type="checkbox"> Bu bölümü çalıştım</label>
+</section>
+
+<section class="sec" id="vaka" data-t="✍️ Klasik-Vaka">
+<h2>✍️ Klasik Sınav ve Vaka Hazırlığı</h2>
+<div class="wk">Önce kendin cevap yaz, sonra model cevabı aç</div>
+<h3>Vaka cevaplama şablonu (7 adım)</h3>
+<ol>
+<li><b>Olayın tanımı:</b> iş kazası mı (5510 md. 13'ün hangi bendi), meslek hastalığı mı, ramak kala mı?</li>
+<li><b>Tehlike ve risk:</b> ikisini ayrı ayrı yaz</li>
+<li><b>Kök neden:</b> güvensiz hareket ve güvensiz koşulu ayır, sonra domino veya Bird teorisine bağla. Yönetim eksikliği varsa onu da yaz.</li>
+<li><b>Mevzuata aykırılıklar:</b> madde ve yönetmelik adıyla</li>
+<li><b>Önlemler:</b> hiyerarşiye göre sırala (eliminasyon → ikame → mühendislik → idari → KKD)</li>
+<li><b>Olay sonrası:</b> kolluğa derhal ve SGK'ya 3 iş günü içinde bildirim, risk değerlendirmesinin yenilenmesi, kaza araştırması, dönüşte ek eğitim</li>
+<li><b>Hesap ve etkinlik:</b> risk skoru, dB veya TWA; önlem sonrası kalıntı risk</li>
+</ol>
+<div class="tip">💡 Her vakada <b>bir hesap, bir madde numarası ve hiyerarşiye göre sıralı önlemler</b> olsun. Yalnızca KKD önermek düşük puan alır.</div>
+
+<h3>Vakalar</h3>
+<details><summary>Vaka 1 – Pres kazası</summary>
+<p><i>80 çalışanlı bir metal sac firmasında operatör, kalıba sıkışan parçayı elle almaya çalışırken pres çalışıyor, iki parmağı kopuyor. Işık perdesi, üretimi yavaşlattığı için ustabaşı tarafından bir hafta önce devre dışı bırakılmış. Operatör 2 hafta önce işe başlamış ve İSG eğitimi almamış.</i></p>
+<h4>Model cevap</h4>
+<ul>
+<li><b>Tanım:</b> 5510 md. 13/a kapsamında iş kazası, uzuv kaybı olduğu için ağır kaza.</li>
+<li><b>Tehlike:</b> kapanan kalıp (ezilme). <b>Risk:</b> el kalıptayken presin çalışması ve uzuv kaybı.</li>
+<li><b>Kök neden:</b> güvensiz koşul (ışık perdesi devre dışı) + güvensiz hareket (el kalıpta) + <b>yönetim eksikliği</b> (koruyucuyu ustabaşı kaldırmış, eğitim yok, denetim yok). Bird ve Loftus modeline uygun.</li>
+<li><b>Aykırılık:</b> 6331 md. 4, md. 10, md. 17 (<b>işe başlamadan önce eğitim</b> verilmemiş), İş Ekipmanları Yönetmeliği (koruyucu devre dışı bırakılamaz).</li>
+<li><b>Önlem:</b> <i>Mühendislik:</i> ışık perdesi kurcalanamaz hâle getirilir, iki el kumandası eklenir, parça maşa veya otomatik beslemeyle alınır. <i>İdari:</i> sıkışmada “önce durdur, sonra LOTO” talimatı, eğitim, güvenlik donanımı kontrol listesi. Eldivenin bu riski çözmediği ayrıca belirtilir.</li>
+<li><b>Sonrası:</b> kolluğa derhal ve SGK'ya 3 iş günü içinde bildirim, risk değerlendirmesinin <b>kaza nedeniyle süresinden önce</b> yenilenmesi, kaza araştırması, ek eğitim. 50+ çalışan olduğu için konu İSG kurulunun gündemine alınır.</li>
+</ul></details>
+
+<details><summary>Vaka 2 – Torna bakımında beklenmedik enerjilenme</summary>
+<p><i>Teknisyen tornanın kayış-kasnak kapağını açıp kayışı değiştirirken başka bir operatör ana şalteri açıyor ve teknisyenin eli kayışa kapılıyor. LOTO prosedürü yok. Operatörlerin eldivenle torna kullandığı gözleniyor.</i></p>
+<h4>Model cevap</h4>
+<ul>
+<li><b>Tanım:</b> iş kazası (md. 13/a ve b). <b>Tehlike:</b> kayış-kasnak sıkışma noktası ve beklenmedik enerjilenme.</li>
+<li><b>Kök neden:</b> LOTO prosedürünün olmaması (yönetim eksikliği) + operatörün kontrol etmeden şalteri açması.</li>
+<li><b>Önlem:</b> <i>Mühendislik:</i> kilitlenebilir ana şalter, kapak açılınca makineyi durduran kilitleme şalteri. <i>İdari:</i> LOTO (hazırlık → durdur → izole et → kişisel kilit ve etiket → depolanmış enerjiyi boşalt → <b>doğrula</b>), bakım iş izni, eğitim.</li>
+<li><b>Ek bulgu:</b> torna başında eldiven dolanma riski yaratır ve yasaklanmalıdır. Bu, “KKD her zaman doğru çözüm değildir” örneğidir.</li>
+<li><b>Ek puan:</b> Reason modeliyle açıkla. Prosedür, kilitleme ve eğitim katmanlarındaki delikler aynı hizaya gelmiş.</li>
+</ul></details>
+
+<details><summary>Vaka 3 – Kaynak atölyesi (fiziksel ve kimyasal)</summary>
+<p><i>Penceresiz bir atölyede 6 kaynakçı paslanmaz çelik kaynağı yapıyor, yalnızca bir duvar fanı var. Çalışanlarda baş ağrısı, göz yanması ve öksürük şikâyeti var. Taşlama sırasında 92 dB(A) ölçülmüş, taşlama günde 4 saat yapılıyor.</i></p>
+<h4>Model cevap</h4>
+<ul>
+<li><b>Tanım:</b> henüz iş kazası değil, <b>meslek hastalığı riskinin</b> belirtileri (siderozis, Cr⁶⁺ kaynaklı kanser riski, işitme kaybı).</li>
+<li><b>Tehlikeler:</b> kaynak dumanı (Cr⁶⁺, Ni, Mn), O₃ ve NOx (kimyasal); ark UV'si ve gürültü (fiziksel).</li>
+<li><b>Hesap:</b> L_EX,8h = 92 + 10·log(4/8) = <b>89 dB(A)</b>. Bu, <b>87 sınır değerini aşar</b>; 85 üstünde KKD zorunludur.</li>
+<li><b>Mevzuat:</b> Kimyasal Maddelerle Çalışmalarda SG Önlemleri Yönetmeliği, <b>Kanserojen veya Mutajen Maddelerle Çalışmalarda SG Önlemleri Yönetmeliği</b>, Gürültü Yönetmeliği, 6331 md. 15.</li>
+<li><b>Önlem:</b> <i>İkame:</i> düşük dumanlı elektrot ve yöntem. <i>Mühendislik:</i> her kaynak noktasına <b>LEV</b>, taşlama için sessiz disk ve akustik paravan, UV için kaynak perdesi. <i>İdari:</i> iş hijyeni ölçümü (kişisel örnekleme), rotasyon, periyodik muayenede solunum testi ve odyometri. <i>KKD:</i> otomatik kararan maske, P3 filtreli solunum koruyucu, kulaklık.</li>
+<li><b>Neden genel havalandırma yetmez?</b> Genel havalandırma yalnızca seyreltir. Kanserojen kirleticiler <b>kaynağında yakalanmalıdır</b>.</li>
+<li><b>Etkinlik:</b> önlemden sonra ölçüm tekrarlanır ve önceki değerle karşılaştırılır.</li>
+</ul></details>
+
+<details><summary>Vaka 4 – Vinç ile kaldırma (Fine-Kinney)</summary>
+<p><i>Tavan vinciyle 2 tonluk parçalar taşınıyor. Vincin periyodik kontrol raporunun süresi 18 ay önce dolmuş. Sapanlar kontrol edilmeden kullanılıyor, çalışanlar yükün altından geçiyor. O = 3, F = 6, Ş = 40.</i></p>
+<h4>Model cevap</h4>
+<ul>
+<li><b>Skor:</b> R = 3 × 6 × 40 = <b>720</b>, yani 400'ün üzerinde: <b>tolerans gösterilemez</b>, iş durdurulur.</li>
+<li><b>Aykırılık:</b> İş Ekipmanları Yönetmeliği Ek-III'e göre kaldırma ekipmanı <b>en fazla 12 ayda bir</b> kontrol edilmelidir. Sapan kontrolü yapılmıyor, 6331 md. 10 ve md. 17 yerine getirilmemiş.</li>
+<li><b>Önlem:</b> <i>Mühendislik:</i> periyodik kontrol hemen yaptırılır, hasarlı sapan hurdaya ayrılır, yük sınırlayıcı takılır, güzergâh fiziksel olarak ayrılır. <i>İdari:</i> kullanım öncesi sapan kontrolü, SWL etiketi, sapan açısı ≤ 60°, belgeli operatör, “asılı yük altında durmak yasaktır” işareti. <i>KKD:</i> baret, çelik burunlu ayakkabı.</li>
+<li><b>Etkinlik:</b> önlem sonrası örneğin O = 0,5 olursa R = 0,5 × 6 × 40 = <b>120</b>, yani “önemli risk” seviyesine iner. Kalıntı risk izlenir.</li>
+</ul></details>
+
+<h3>Klasik sorular</h3>
+<details><summary>1. Tehlike ile riski örnekle ayırınız.</summary><p>Tehlike, zarar verme <b>potansiyelidir</b>. Risk, o zararın gerçekleşme <b>olasılığı ile sonucunun</b> birleşimidir. Örnek: dönen mil tehlikedir; korumasız mile operatörün kolunun kaptırılması risktir. Koruyucu takıldığında tehlike devam eder ama risk düşer.</p></details>
+<details><summary>2. Heinrich domino teorisini açıklayıp eleştiriniz.</summary><p>Beş domino vardır: kalıtım ve sosyal çevre → kişisel kusur → güvensiz hareket ve koşul → kaza → yaralanma. 3. domino çekilirse zincir kırılır. %88-%10-%2 oranı ve 1:29:300 üçgeni Heinrich'e aittir. <b>Eleştiri:</b> suçu ağırlıkla çalışana yükler, yönetimi göz ardı eder. Bird ve Loftus ilk dominoyu <b>yönetim kontrol eksikliği</b> olarak değiştirmiştir. Reason ise kazayı birden fazla savunma katmanının birlikte çökmesiyle açıklar.</p></details>
+<details><summary>3. Ramak kala olayları neden kayıt altına alınmalıdır?</summary><p>Bird'ün 1:10:30:600 oranına göre her ağır kazanın altında yüzlerce ramak kala olay vardır. Bunlar aynı kök nedenlerden doğar ve <b>zarar oluşmadan</b> öğrenme imkânı verir, yani ucuz bir uyarıdır. Ayrıca risk değerlendirmesinin süresinden önce yenilenmesini gerektirir ve bir öncü göstergedir.</p></details>
+<details><summary>4. Kontrol hiyerarşisini açıklayınız; KKD neden son çaredir?</summary><p>Hiyerarşi: eliminasyon → ikame → mühendislik → idari → KKD. KKD son çaredir, çünkü tehlike yerinde durur; etkisi kişinin doğru ve sürekli kullanmasına bağlıdır; yalnızca kullanan kişiyi korur; rahatsız edicidir ve yeni riskler yaratabilir (örneğin tornada eldiven). 6331 md. 5 de “toplu korumaya öncelik” der.</p></details>
+<details><summary>5. Risk değerlendirmesi hangi hâllerde süresinden önce yenilenir?</summary><p>Normalde 6/4/2 yılda bir yenilenir. Süre dolmadan yenilenmesi gereken hâller: taşınma veya bina değişikliği; yeni teknoloji, madde veya ekipman; üretim yöntemi değişikliği; iş kazası, meslek hastalığı veya ramak kala; mevzuat ya da sınır değer değişikliği; sağlık gözetimi bulguları; dışarıdan gelen yeni tehlike.</p></details>
+<details><summary>6. İSG kurulunu yapısı ve işleyişiyle açıklayınız.</summary><p>50 ve üzeri çalışanı olan ve 6 aydan uzun süren sürekli işlerin yapıldığı işyerlerinde kurulur (6331 md. 22). Başkanı işveren ya da vekili, sekreteri İGU'dur. Hekim, İK sorumlusu, varsa sivil savunma uzmanı, ustabaşı ve çalışan temsilcisi de üyedir. Toplanma sıklığı 3, 2 veya 1 aydır. Kararlar oy çokluğuyla alınır, eşitlikte başkanın oyu belirleyicidir. İşveren kurul kararlarını uygular.</p></details>
+<details><summary>7. İş kazası ile meslek hastalığını karşılaştırınız.</summary><p>İş kazası <b>ani</b> ve dışsal bir olaydır, zamanı bellidir. Meslek hastalığı <b>tekrarlayan ve uzun süreli</b> maruziyetle yavaş gelişir, tespiti için yükümlülük süresi ve SGK Sağlık Kurulu kararı gerekir. Bildirim: iş kazası kolluğa derhal ve SGK'ya 3 iş günü içinde; meslek hastalığı, öğrenildiği tarihten itibaren 3 iş günü içinde.</p></details>
+<details><summary>8. Makine Emniyeti Yönetmeliği ile İş Ekipmanları Yönetmeliğini karşılaştırınız.</summary><p>Makine Emniyeti Yönetmeliği <b>imalatçıya</b> yöneliktir: tasarım, teknik dosya, uygunluk beyanı ve CE. İş Ekipmanları Yönetmeliği <b>kullanıcı işverene</b> yöneliktir: ekipman seçimi, bakım, periyodik kontrol, eğitim. CE'li bir makine alınsa bile kullanıcının yükümlülükleri devam eder.</p></details>
+<details><summary>9. Çalışmaktan kaçınma hakkını açıklayınız.</summary><p>6331 md. 13'e göre ciddi ve yakın tehlike varsa çalışan kurula, kurul yoksa işverene başvurur. Talep kabul edilirse önlem alınana kadar çalışmaktan kaçınabilir; ücreti ve hakları saklıdır. Ciddi, yakın ve önlenemez tehlikede işyerini terk edebilir. Bu nedenle çalışanın hakları kısıtlanamaz.</p></details>
+<details><summary>10. Gürültüyle mücadele yöntemlerini açıklayınız.</summary><p>Önce eşikler: 80 (bilgilendirme ve KKD hazır bulundurma), 85 (KKD zorunlu, alan işaretlenir), 87 dB(A) (aşılamaz). Mücadele üç aşamalıdır. <b>Kaynakta:</b> sessiz makine, balans, bakım, susturucu, izolatör. <b>Yayılma yolunda:</b> kabin, bariyer, yutucu kaplama, mesafe. <b>Alıcıda:</b> KKD, rotasyon, sessiz oda. Gürültüye maruz kalanlara odyometrik muayene yapılır.</p></details>
+<details><summary>11. Tehlike sınıfı yükseldikçe yükümlülükler neden artar?</summary><p>Olasılık ve şiddet arttığı için riski aynı seviyede tutmak daha sık ve daha nitelikli kontrol gerektirir. Bu yüzden eğitim, muayene ve kurul toplantısı sıklaşır; yenileme süreleri kısalır; uzman süresi ve belge sınıfı yükselir; daha az çalışan başına ilk yardımcı ve destek elemanı istenir.</p></details>
+<label class="chk"><input type="checkbox"> Bu bölümü çalıştım</label>
+</section>
+
+<section class="sec" id="kartlar" data-t="🃏 Kartlar">
+<h2>🃏 Flash Kartlar</h2>
+<div class="wk">Karta dokun → cevabı gör</div>
+<div class="fc"><div class="fc-in" id="fc"></div></div>
+<div class="meta" id="fcMeta"></div>
+<div class="row">
+<button class="btn" id="fcPrev">◀ Önceki</button>
+<button class="btn p" id="fcKnow">✓ Biliyorum</button>
+<button class="btn" id="fcNext">Sonraki ▶</button>
+</div>
+<div class="row"><button class="btn" id="fcShuf">🔀 Karıştır</button><button class="btn" id="fcReset">↺ Hepsini geri al</button></div>
+</section>
+
+<section class="sec" id="test" data-t="📝 Test">
+<h2>📝 Mini Test</h2>
+<div class="wk">Rastgele 15 soru · hesap soruları dahil</div>
+<div id="qz"></div>
+</section>
+
+</main>
+<button id="top" aria-label="Yukarı">↑</button>
+
+<script>
+(function(){
+"use strict";
+var LS={get:function(k,d){try{var v=localStorage.getItem(k);return v===null?d:JSON.parse(v);}catch(e){return d;}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
+
+/* Tema */
+var root=document.documentElement,th=LS.get("isg-theme",null);
+if(th)root.setAttribute("data-theme",th);
+document.getElementById("theme").onclick=function(){
+  var cur=root.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+  var nx=cur==="dark"?"light":"dark";root.setAttribute("data-theme",nx);LS.set("isg-theme",nx);
+};
+
+/* Navigasyon + ilerleme */
+var secs=[].slice.call(document.querySelectorAll("section.sec")),nav=document.getElementById("nav"),done=LS.get("isg-done",{});
+secs.forEach(function(s){
+  var a=document.createElement("a");a.href="#"+s.id;a.textContent=s.getAttribute("data-t");a.id="n-"+s.id;nav.appendChild(a);
+  var c=s.querySelector("label.chk input");
+  if(c){c.checked=!!done[s.id];c.onchange=function(){done[s.id]=c.checked;LS.set("isg-done",done);prog();};}
+});
+function prog(){
+  var tot=0,ok=0;secs.forEach(function(s){if(s.querySelector("label.chk")){tot++;var d=!!done[s.id];if(d)ok++;document.getElementById("n-"+s.id).classList.toggle("done",d);}});
+  document.getElementById("bar").style.width=(tot?ok/tot*100:0)+"%";
+}
+prog();
+
+/* Arama */
+var norm=function(t){return t.toLocaleLowerCase("tr");};
+document.getElementById("q").oninput=function(){
+  var v=norm(this.value.trim());
+  secs.forEach(function(s){
+    if(s.id==="kartlar"||s.id==="test"){s.classList.toggle("hide",!!v);return;}
+    if(!v){s.classList.remove("hide");[].forEach.call(s.querySelectorAll(".hide"),function(e){e.classList.remove("hide");});return;}
+    var hit=norm(s.textContent).indexOf(v)>=0;s.classList.toggle("hide",!hit);
+    if(hit){
+      [].forEach.call(s.querySelectorAll("li,tr,p,.tip,.me,details"),function(e){if(e.tagName==="TR"&&e.querySelector("th")&&!e.querySelector("td"))return;var m=norm(e.textContent).indexOf(v)>=0;e.classList.toggle("hide",!m);if(m&&e.tagName==="DETAILS")e.open=true;});
+      [].forEach.call(s.querySelectorAll("details p,details li"),function(e){e.classList.remove("hide");});
+      [].forEach.call(s.querySelectorAll("h3"),function(h){var any=norm(h.textContent).indexOf(v)>=0,n=h.nextElementSibling;while(!any&&n&&n.tagName!=="H3"){if(norm(n.textContent).indexOf(v)>=0)any=true;n=n.nextElementSibling;}h.classList.toggle("hide",!any);});
+    }
+  });
+};
+document.getElementById("top").onclick=function(){scrollTo({top:0,behavior:"smooth"});};
+
+/* Flash kartlar */
+var CARDS=[
+["6331 Resmî Gazete tarihi?","30.06.2012"],
+["6331'in dayandığı AB direktifi?","89/391/EEC Çerçeve Direktifi"],
+["İlk İSG düzenlemesi?","Dilaver Paşa Nizamnamesi (1865, Zonguldak)"],
+["Tehlike vs risk?","Tehlike: zarar verme potansiyeli. Risk: zararın gerçekleşme olasılığı (× şiddet)."],
+["Ramak kala?","Zarar verme potansiyeli olup zarara yol açmayan olay"],
+["İş kazası bildirimi?","Kolluk kuvvetlerine derhal, SGK'ya en geç 3 iş günü (5510 md. 13, 6331 md. 14)"],
+["Meslek hastalığı bildirimi?","SGK'ya, öğrenildiği tarihten itibaren 3 iş günü"],
+["Tam zamanlı İGU eşiği (az/tehlikeli/çok)?","1000+ / 500+ / 250+ çalışan"],
+["Tam zamanlı hekim eşiği (az/tehlikeli/çok)?","2000+ / 1000+ / 750+ çalışan"],
+["Çocuk işçi yaşı (4857 md. 71)?","15 yaşını doldurmayan çalıştırılamaz; 14 yaşını doldurmuş ve zorunlu eğitimini bitirmiş olan yalnızca hafif işlerde çalışabilir"],
+["İşin durdurulması kararını kim uygular?","Tespiti iş müfettişleri heyeti yapar; mülki amir 24 saat içinde uygular"],
+["PUKÖ nedir?","Planla - Uygula - Kontrol et - Önlem al (Deming döngüsü)"],
+["ISO 45001 neyin yerini aldı?","OHSAS 18001; gönüllü İSG yönetim sistemi standardı"],
+["Öncü ve artçı gösterge farkı?","Öncü göstergeler kazadan önce uyarır (ramak kala, denetim, eğitim). Artçı göstergeler zarardan sonra ölçer (kaza sıklık ve ağırlık hızı)."],
+["Önlemin etkinliği nasıl ölçülür?","Kalıntı risk puanı, önce-sonra ölçümü, gözlem ve denetim, göstergeler, çalışan geri bildirimi"],
+["Yerleşim planında ilk ilke?","Tehlikeli birimleri ayırmak: kazan dairesi, kompresör odası, boya kabini, kimyasal depo"],
+["Kişisel örnekleme ile ortam ölçümü farkı?","Kişisel örnekleme solunum bölgesinden alınır ve gerçek maruziyeti verir. Ortam ölçümü sabit noktadan alınır ve kaynağı gösterir."],
+["AÇIKLA: KKD neden son çaredir?","Tehlike yerinde durur, etkisi kullanıcıya bağlıdır, yalnızca kullananı korur, yeni risk yaratabilir (tornada eldiven). 6331 md. 5'e göre toplu korumaya öncelik verilir."],
+["AÇIKLA: Heinrich teorisinin eleştirisi?","Suçu çalışana yükler. Bird ve Loftus ilk dominoyu yönetim eksikliği yapar, Reason çok katmanlı savunma çöküşüyle açıklar."],
+["İSG kurulu kurma şartı?","50+ çalışan ve 6 aydan uzun süren sürekli işler"],
+["İSG kurulu başkanı / sekreteri?","Başkan: işveren/vekili · Sekreter: İGU"],
+["Kurul toplanma sıklığı (az/tehlikeli/çok)?","3 ayda / 2 ayda / ayda bir"],
+["Çalışmaktan kaçınma hakkı hangi madde?","6331 md. 13 – ciddi ve yakın tehlike"],
+["İGU süresi (az/tehlikeli/çok)?","10 / 20 / 40 dk (çalışan başına, ayda)"],
+["Hekim süresi (az/tehlikeli/çok)?","5 / 10 / 15 dk (çalışan başına, ayda)"],
+["Risk değ. yenileme (az/tehlikeli/çok)?","6 / 4 / 2 yıl"],
+["Eğitim sıklığı ve süresi?","Az: 3 yılda 8 sa · Tehlikeli: 2 yılda 12 sa · Çok: yılda 16 sa"],
+["İlk yardımcı oranı?","Az 20 · Tehlikeli 15 · Çok 10 çalışana 1 (sertifika 3 yıl)"],
+["Acil durum destek elemanı oranı?","Az 50 · Tehlikeli 30 · Çok 20 çalışana 1"],
+["Çalışan temsilcisi: 101–500 çalışan?","3 temsilci"],
+["Tehlike sınıfı neye göre belirlenir?","NACE Rev.2 koduna ve asıl işe göre (Tehlike Sınıfları Tebliği)"],
+["Risk değerlendirme ekibi?","İşveren, İGU, hekim, çalışan temsilcisi, destek elemanı, bilgi sahibi çalışanlar"],
+["İGU hayati tehlike görürse?","İşverene yazılı bildirir; önlem alınmazsa Bakanlığa"],
+["Heinrich üçgeni?","1 ağır : 29 hafif : 300 yaralanmasız"],
+["Bird üçgeni?","1 : 10 : 30 : 600 (ramak kala)"],
+["Heinrich'te çekilmesi gereken domino?","3. domino: güvensiz hareket / güvensiz koşul"],
+["Bird & Loftus ilk domino?","Yönetim kontrol eksikliği"],
+["Heinrich %88-%10-%2?","Güvensiz hareket - güvensiz koşul - kaçınılmaz"],
+["Kaza sıklık hızı formülü?","Kaza × 1.000.000 / toplam çalışma saati"],
+["Pnömokonyoz hangi SGK grubu?","C grubu"],
+["Yükümlülük süresi?","Maruziyet bittikten sonra hastalığın çıkabileceği en uzun süre"],
+["Gürültü 80/85/87?","En düşük eylem / en yüksek eylem / maruziyet sınır değeri dB(A)"],
+["90 dB + 90 dB = ?","93 dB"],
+["Gürültüye bağlı kayıp hangi frekansta çentik?","4000 Hz"],
+["El-kol titreşim eylem/sınır?","2,5 / 5 m/s²"],
+["Bütün vücut titreşim eylem/sınır?","0,5 / 1,15 m/s²"],
+["Titreşim izolasyonu şartı?","f / fₙ > √2 (≈1 ise rezonans)"],
+["Radyasyondan korunmanın 3 ilkesi?","Zaman, mesafe, zırhlama"],
+["Kaçak akım rölesi hayat koruma?","30 mA (yangın koruma 300 mA)"],
+["Metal talaşı yangını sınıfı?","D sınıfı – su sıkılmaz"],
+["NIOSH yük sabiti?","23 kg"],
+["GBF kaç bölüm?","16"],
+["STEL süresi?","15 dakika"],
+["Biyolojik grup 4 özelliği?","Ağır hastalık, yüksek yayılma, tedavi yok (Ebola)"],
+["Kontrol hiyerarşisi?","Eliminasyon → İkame → Mühendislik → İdari → KKD"],
+["ISO 12100 risk azaltma 3 adım?","Doğası gereği güvenli tasarım → Koruyucu önlemler → Kullanım bilgisi"],
+["CE işareti kimin sorumluluğu?","İmalatçı (Makine Emniyeti Yön. 2006/42/AT)"],
+["LOTO'nun son 2 adımı?","Depolanmış enerjiyi boşalt → Enerjinin kesildiğini doğrula"],
+["Taşlama mesnet-taş boşluğu?","≤ 3 mm"],
+["ATEX gaz bölgeleri?","0 (sürekli), 1 (normalde olası), 2 (nadiren) · toz: 20-21-22"],
+["Ekranlı araçlarda ara?","Her 1 saatte 10 dk ara veya iş değişikliği"],
+["Fine-Kinney 3×6×15?","270 → esaslı risk"],
+["FMEA RPN?","Şiddet × Olasılık × Saptanabilirlik (maks. 1000)"]
+];
+var known=LS.get("isg-known",{}),order=CARDS.map(function(_,i){return i;}),pos=0,flip=false;
+var fc=document.getElementById("fc"),fm=document.getElementById("fcMeta");
+function deck(){return order.filter(function(i){return !known[i];});}
+function draw(){
+  var d=deck();
+  if(!d.length){fc.textContent="🎉 Hepsini biliyorsun!";fc.classList.remove("back");fm.textContent=CARDS.length+" / "+CARDS.length+" kart tamam";return;}
+  if(pos>=d.length)pos=0;if(pos<0)pos=d.length-1;
+  var c=CARDS[d[pos]];fc.textContent=flip?c[1]:c[0];fc.classList.toggle("back",flip);
+  fm.textContent=(pos+1)+" / "+d.length+" kalan · "+(CARDS.length-d.length)+" biliniyor";
+}
+fc.onclick=function(){flip=!flip;draw();};
+document.getElementById("fcNext").onclick=function(){pos++;flip=false;draw();};
+document.getElementById("fcPrev").onclick=function(){pos--;flip=false;draw();};
+document.getElementById("fcKnow").onclick=function(){var d=deck();if(d.length){known[d[pos]]=true;LS.set("isg-known",known);}flip=false;draw();};
+document.getElementById("fcShuf").onclick=function(){shuffle(order);pos=0;flip=false;draw();};
+document.getElementById("fcReset").onclick=function(){known={};LS.set("isg-known",known);pos=0;flip=false;draw();};
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+draw();
+
+/* Test */
+var QS=[
+["6331 sayılı Kanun hangi tarihte Resmî Gazete'de yayımlandı?",["30.06.2012","22.05.2003","31.05.2006","01.01.2013"],0,"6331 – RG 30.06.2012."],
+["'Zarar veya hasar verme potansiyeli' hangi kavramın tanımıdır?",["Risk","Tehlike","Ramak kala","Önleme"],1,"Tehlike = potansiyel; risk = olasılık."],
+["İş kazası SGK'ya en geç kaç günde bildirilir?",["Hemen","3 iş günü","10 gün","1 ay"],1,"SGK'ya 3 iş günü; kolluk kuvvetlerine ise derhal."],
+["İş kazası kolluk kuvvetlerine ne zaman bildirilir?",["Derhal","3 iş günü içinde","Bildirilmez","1 hafta içinde"],0,"5510 md. 13: kolluğa derhal, SGK'ya 3 iş günü."],
+["Çok tehlikeli sınıfta kaç çalışandan itibaren tam zamanlı İGU gerekir?",["50","250","500","1000"],1,"1000+ / 500+ / 250+."],
+["Genel kurala göre kaç yaşını doldurmamış çocuk çalıştırılamaz?",["12","14","15","18"],2,"15; 14 yaşını doldurmuş olan yalnızca hafif işlerde çalışabilir."],
+["PUKÖ döngüsünde 'K' neyi ifade eder?",["Kaydet","Kontrol et","Kapat","Koru"],1,"Planla-Uygula-Kontrol et-Önlem al."],
+["Hangisi öncü (proaktif) göstergedir?",["Kaza sıklık hızı","Kayıp iş günü","Ramak kala bildirim sayısı","Meslek hastalığı sayısı"],2,"Öncü göstergeler kazadan önce uyarır."],
+["İSG kurulu kurulması için şart hangisi?",["10+ çalışan","50+ çalışan ve 6 aydan uzun sürekli iş","Sadece çok tehlikeli sınıf","100+ çalışan"],1,"6331 md. 22."],
+["Çok tehlikeli sınıfta görev yapabilecek İGU belgesi?",["C","B","A","Hepsi"],2,"Çok tehlikeli → yalnız A sınıfı."],
+["Çok tehlikeli sınıfta İGU'nun çalışan başına aylık süresi?",["10 dk","20 dk","40 dk","15 dk"],2,"10 / 20 / 40 dk."],
+["Tehlikeli sınıfta risk değerlendirmesi kaç yılda bir yenilenir?",["2","4","6","Her yıl"],1,"Çok tehlikeli 2, tehlikeli 4, az tehlikeli 6 yıl."],
+["Çok tehlikeli sınıfta İSG kurulu ne sıklıkla toplanır?",["Ayda bir","2 ayda bir","3 ayda bir","Yılda bir"],0,"3 / 2 / 1 ay."],
+["Çok tehlikeli sınıfta kaç çalışana bir ilk yardımcı gerekir?",["20","15","10","50"],2,"20 / 15 / 10."],
+["İşyerinin tehlike sınıfı neye göre belirlenir?",["Çalışan sayısına","NACE koduna ve asıl işe","İşverenin beyanına","Ciroya"],1,"Tehlike Sınıfları Tebliği – NACE Rev.2, asıl iş."],
+["Heinrich üçgenindeki oran?",["1-10-30-600","1-29-300","1-10-100","1-30-300"],1,"Heinrich 1:29:300; Bird 1:10:30:600."],
+["Heinrich domino teorisinde kazayı önlemek için hangi domino çekilmeli?",["Kalıtım/sosyal çevre","Kişisel kusur","Güvensiz hareket/koşul","Yaralanma"],2,"3. domino."],
+["Bird & Loftus'a göre ilk domino?",["Kişisel kusur","Yönetim kontrol eksikliği","Güvensiz koşul","Şans"],1,"Kök neden yönetime atfedilir."],
+["Yılda 300.000 saat çalışılan bir işyerinde 6 kaza oldu. Kaza sıklık hızı?",["2","20","200","0,02"],1,"6 × 10⁶ / 300.000 = 20."],
+["Silikoz hangi SGK meslek hastalığı grubundadır?",["A","B","C","E"],2,"C: pnömokonyozlar."],
+["Gürültüde maruziyet sınır değeri?",["80 dB(A)","85 dB(A)","87 dB(A)","90 dB(A)"],2,"80 / 85 / 87."],
+["90 dB ve 90 dB'lik iki makine birlikte çalışırsa toplam?",["180 dB","90 dB","93 dB","96 dB"],2,"Eşit iki kaynak +3 dB."],
+["Operatör günde yalnız 2 saat 95 dB'ye maruz kalıyor. L_EX,8h?",["95 dB","92 dB","89 dB","83 dB"],2,"95 + 10·log(2/8) = 95 − 6 = 89."],
+["El-kol titreşiminde sınır değer?",["0,5 m/s²","1,15 m/s²","2,5 m/s²","5 m/s²"],3,"El-kol 2,5 / 5; bütün vücut 0,5 / 1,15."],
+["Titreşim izolasyonunun sağlanması için f/fₙ oranı?",["< 1","≈ 1","> √2","= 0"],2,"≈1 rezonans; >√2 izolasyon."],
+["4 saat 10 mg/m³, 4 saat 2 mg/m³ maruziyet. 8 saatlik TWA?",["12","6","5","8"],1,"(40 + 8) / 8 = 6."],
+["Karışım kuralına göre maruziyet uygun sayılması için Σ C/SD?",["≤ 1","≤ 2","≥ 1","= 0"],0,"Toplam 1'i aşmamalı."],
+["Tedavisi olmayan, yayılma riski yüksek biyolojik etken grubu?",["1","2","3","4"],3,"Grup 4 (Ebola)."],
+["Kontrol hiyerarşisinde en etkili önlem?",["KKD","İdari","Eliminasyon","Mühendislik"],2,"Eliminasyon → İkame → Mühendislik → İdari → KKD."],
+["CE işaretini makineye iliştirme sorumluluğu kimdedir?",["Kullanıcı işveren","İGU","İmalatçı","Bakanlık"],2,"Makine Emniyeti Yön. – imalatçı."],
+["ISO 12100'e göre risk azaltmanın ilk adımı?",["KKD","Kullanım kılavuzu","Doğası gereği güvenli tasarım","Eğitim"],2,"Önce tasarım, sonra koruma, sonra bilgi."],
+["LOTO'da 'kilitle-etiketle'den sonra yapılması gereken?",["İşe başla","Depolanmış enerjiyi boşalt ve doğrula","Kilidi arkadaşına ver","Raporu yaz"],1,"Depolanmış enerji + doğrulama."],
+["Fine-Kinney: O=3, F=6, Ş=15. Risk seviyesi?",["Kabul edilebilir","Olası","Esaslı","Tolerans gösterilemez"],2,"270 → 200–400 esaslı."],
+["Mavi yuvarlak güvenlik işareti ne anlatır?",["Yasak","Uyarı","Emredici","Acil çıkış"],2,"Mavi = zorunluluk."],
+["Patlayıcı gaz ortamının sürekli bulunduğu ATEX bölgesi?",["0","1","2","20"],0,"Gaz 0-1-2, toz 20-21-22."],
+["Hayat koruma için kaçak akım rölesi değeri?",["10 mA","30 mA","300 mA","1 A"],1,"30 mA hayat, 300 mA yangın."],
+["Alüminyum/magnezyum talaşı yangını hangi sınıftır?",["A","B","C","D"],3,"D sınıfı, su sıkılmaz."],
+["Taşlama tezgâhında mesnet ile taş arası boşluk en fazla?",["1 mm","3 mm","10 mm","Önemsiz"],1,"≤ 3 mm."],
+["Torna tezgâhında hangisi yanlış uygulamadır?",["Koruyucu gözlük","Eldivenle çalışmak","Kilitlemeli ayna koruyucusu","İş ayakkabısı"],1,"Eldiven dönen parçaya dolanır."],
+["FMEA'da RPN nasıl hesaplanır?",["O × Ş","O × F × Ş","Şiddet × Olasılık × Saptanabilirlik","Kaza × 10⁶ / saat"],2,"S × O × D, maks. 1000."],
+["Kendi aracıyla (servis yok) işe giderken kaza geçiren çalışan için genel kural?",["İş kazası sayılır","Genelde iş kazası sayılmaz","Meslek hastalığı sayılır","Ramak kaladır"],1,"5510 md. 13/e: işverenin sağladığı taşıt şartı."],
+["Ekranlı araçlarla çalışmada ara?",["Her 2 saatte 5 dk","Her 1 saatte 10 dk","Günde 1 saat","Gerekmez"],1,"Ekranlı Araçlar Yön."]
+];
+var qz=document.getElementById("qz"),cur,qi,score,answered;
+function start(){cur=shuffle(QS.slice()).slice(0,15);qi=0;score=0;show();}
+function show(){
+  if(qi>=cur.length){
+    var best=LS.get("isg-best",0);if(score>best){best=score;LS.set("isg-best",best);}
+    qz.innerHTML="<p style='font-size:20px'><b>Puan: "+score+" / "+cur.length+"</b></p><p class='exp'>En iyi skorun: "+best+" / 15</p><div class='row'><button class='btn p' id='again'>Yeni test</button></div>";
+    document.getElementById("again").onclick=start;return;
+  }
+  answered=false;var q=cur[qi];
+  var idx=shuffle(q[1].map(function(_,i){return i;}));
+  qz.innerHTML="<div class='meta' style='text-align:left'>Soru "+(qi+1)+" / "+cur.length+" · Doğru: "+score+"</div><p><b></b></p>";
+  qz.querySelector("p b").textContent=q[0];
+  idx.forEach(function(i){
+    var b=document.createElement("button");b.className="opt";b.textContent=q[1][i];
+    b.onclick=function(){
+      if(answered)return;answered=true;
+      if(i===q[2]){score++;b.classList.add("ok");}else{b.classList.add("bad");[].forEach.call(qz.querySelectorAll(".opt"),function(o){if(o.textContent===q[1][q[2]])o.classList.add("ok");});}
+      var e=document.createElement("div");e.className="exp";e.textContent="💡 "+q[3];qz.appendChild(e);
+      var r=document.createElement("div");r.className="row";var n=document.createElement("button");n.className="btn p";n.textContent=qi+1<cur.length?"Sonraki soru ▶":"Sonucu gör";
+      n.onclick=function(){qi++;show();};r.appendChild(n);qz.appendChild(r);
+    };
+    qz.appendChild(b);
+  });
+}
+start();
+})();
+</script>
+</body>
+</html>
